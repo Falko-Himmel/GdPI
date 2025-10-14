@@ -1,8 +1,8 @@
 --  in haskell gibt es verschiedene möglichkeiten verzweigungen zu machen
 --  die "einfachste" ist if then else
 
-signum :: Integer -> String
-signum x =
+signumIf :: Integer -> String
+signumIf x =
   if x < 0
     then "negativ"
     else
