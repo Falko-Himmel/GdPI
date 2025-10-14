@@ -1,0 +1,9 @@
+Begrüßung 
+email
+einführung gdpi
+abfrage programmierkenntnisse
+hilfestellung haskell installation
+zeigen blatt0 -> hs dateien erstellen, hello world und mit ghci ausführen
+
+weiterer plan für nächsten tututorien: übungsblätter zusammen besprechen und ggf tipps geben, lösungen in der woche dannach besprechen, inhalte von vl besprechen
+fragen immer stellen, haben vorrang
