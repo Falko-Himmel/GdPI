@@ -13,12 +13,30 @@ Privates Repository für unser Tutoren-Team zur gemeinsamen Erstellung von Mater
 
 Ergänzende Materialien erstellen, die über die vorgegebenen Modulinhalte hinausgehen und unseren Erstsemestern beim Verständnis der funktionalen Programmierung helfen.
 
-## 🚀 Struktur
+## 🚀 Aktuelle Struktur
 
-- `aufgaben/` - Zusätzliche Übungsaufgaben
-- `beispiele/` - Code-Beispiele und Demos
-- `ideen/` - Sammlung für Tutorium-Ideen
-- `notizen/` - Gemeinsame Notizen und Erkenntnisse
+```
+├── foldrToRecursive/
+│   └── foldrToRecursive.hs          # Übungen zu fold-Funktionen und Rekursion
+├── haskellInJava/
+│   ├── haskellExamples.hs           # Haskell-Beispiele
+│   └── javaExamples.java            # Vergleichbare Java-Implementierungen
+├── playground/
+│   └── playground.hs               # Experimenteller Code und Tests
+├── Tutorium1/
+│   └── todo.txt                     # Aufgaben und Notizen für Tutorium 1
+├── verzweigungenHaskellJava/
+│   └── verzweigungen.hs            # Beispiele für Verzweigungen und Bedingungen
+└── README.md                        # Diese Datei
+```
+
+### 📁 Ordner-Übersicht
+
+- **`foldrToRecursive/`** - Materialien zu fold-Funktionen und rekursiven Ansätzen
+- **`haskellInJava/`** - Vergleichende Beispiele zwischen Haskell und Java
+- **`playground/`** - Experimenteller Bereich für neue Ideen und Tests
+- **`Tutorium1/`** - Spezifische Materialien und Aufgaben für das erste Tutorium
+- **`verzweigungenHaskellJava/`** - Beispiele für Kontrollstrukturen und Verzweigungen
 
 ## 👥 Team
 
