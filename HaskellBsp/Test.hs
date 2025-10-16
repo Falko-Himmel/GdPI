@@ -21,6 +21,14 @@ flatten (List (x:xs)) =  flatten x ++ flatten (List xs)
 
 data BinTree a = Empty | Node a (BinTree a) (BinTree a)
     deriving Show
+--       5
+--      / \
+--     3   7
+--    /   / \
+--   1   6   9
+myTree = Node 5 
+           (Node 3 (Node 1 Empty Empty) Empty)
+           (Node 7 (Node 6 Empty Empty) (Node 9 Empty Empty))
 
 treeSearch :: Eq a => BinTree a -> a -> Bool
 treeSearch Empty _ = False
