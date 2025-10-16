@@ -2,6 +2,7 @@ Begrüßung
 email
 einführung gdpi
 abfrage programmierkenntnisse
+terminal einfache befehle zeigen (cd, ls, mkdir, ...)
 hilfestellung haskell installation
 zeigen blatt0 -> hs dateien erstellen, hello world und mit ghci ausführen
 
