@@ -29,4 +29,12 @@ signumCase x = case compare x 0 of
   EQ -> "null"
   GT -> "positiv"
 
+
+-- anderes Beispiel für case of
+foo :: Integer -> String
+foo x = case x of 
+  0 -> "null"
+  1 -> "eins"
+  _ -> "etwas anderes" 
+
 --  compare x 0 gibt LT, EQ oder GT zurück je nachdem ob x kleiner, gleich oder größer als 0 ist, ist bereits eine eingebaute funktion in haskell
