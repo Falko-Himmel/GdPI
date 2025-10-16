@@ -29,6 +29,8 @@ signumCase x = case compare x 0 of
   EQ -> "null"
   GT -> "positiv"
 
+--  compare x 0 gibt LT, EQ oder GT zurück je nachdem ob x kleiner, gleich oder größer als 0 ist, ist bereits eine eingebaute funktion in haskell
+
 
 -- anderes Beispiel für case of
 foo :: Integer -> String
@@ -37,4 +39,4 @@ foo x = case x of
   1 -> "eins"
   _ -> "etwas anderes" 
 
---  compare x 0 gibt LT, EQ oder GT zurück je nachdem ob x kleiner, gleich oder größer als 0 ist, ist bereits eine eingebaute funktion in haskell
+-- Warum case of so nützlich? Typ-sicher: Compiler pfüft auf vollständigkeit; Ersetzt if-then-else; effizienter als Guards
