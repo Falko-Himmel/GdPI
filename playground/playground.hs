@@ -8,3 +8,7 @@ fib :: Int -> Int
 fib 0 = 0
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
+
+
+oddEven :: [Int] -> [Either Int Int]
+oddEven  = map (\x -> if even x then Left x else Right x)
