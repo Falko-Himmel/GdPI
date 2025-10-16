@@ -10,6 +10,7 @@ public class javaExamples {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
         traditionalSum(numbers);
         streamsSum(numbers);
+        rekSum(numbers);
 
         traditionalEvenMaybeFilter(numbers);
         traditionalMaybeFilter((Integer x) -> x % 2 == 0, numbers);
@@ -24,6 +25,7 @@ public class javaExamples {
         }
         System.out.println("taditionalSum: " + sum);
     }
+    
 
     private static void streamsSum(List<Integer> numbers) {
         int sum = numbers.stream().reduce(0, (a, b) -> a + b); // foldr (\x xs -> x + xs) 0 ≈ reduce(0, (a,b) -> a + b)
