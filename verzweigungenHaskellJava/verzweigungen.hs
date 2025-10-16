@@ -39,4 +39,4 @@ foo x = case x of
   1 -> "eins"
   _ -> "etwas anderes" 
 
--- Warum case of so nützlich? Typ-sicher: Compiler pfüft auf vollständigkeit; Ersetzt if-then-else; effizienter als Guards
+-- Warum case of so nützlich? Typ-sicher: Compiler prüft auf vollständigkeit; Ersetzt if-then-else; effizienter als Guards
