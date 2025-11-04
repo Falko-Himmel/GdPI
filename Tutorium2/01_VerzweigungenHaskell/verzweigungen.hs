@@ -1,5 +1,6 @@
 --  in haskell gibt es verschiedene möglichkeiten verzweigungen zu machen
---  die "einfachste" ist if then else
+--  eine Möglichkeit ist if then else (ähnlich wie in python, java, c++, ...)
+--  unser beispielalgorithmus soll zu einer zahl sagen, ob die zahl positiv, neutral oder negativ ist
 
 signumIf :: Integer -> String
 signumIf x =
@@ -10,7 +11,6 @@ signumIf x =
         then "null"
         else "positiv"
 
-
 --  pattern matching mit guards (wächter) ist eine weitere möglichkeit verzweigungen zu machen
 
 signumGuards :: Integer -> String
@@ -19,9 +19,8 @@ signumGuards x
   | x == 0 = "null"
   | otherwise = "positiv"
 
-
-
 --  case of ist eine weitere möglichkeit verzweigungen zu machen
+-- bei diesem beispiel bisschen schwieriger weil case of ähnlich wie switch case in python, java, ... und nicht direkt <, > ermöglicht, kann man hier hilfsmethode verwenden
 
 signumCase :: Integer -> String
 signumCase x = case compare x 0 of
@@ -31,12 +30,10 @@ signumCase x = case compare x 0 of
 
 --  compare x 0 gibt LT, EQ oder GT zurück je nachdem ob x kleiner, gleich oder größer als 0 ist, ist bereits eine eingebaute funktion in haskell
 
-
 -- anderes Beispiel für case of
 foo :: Integer -> String
-foo x = case x of 
+foo x = case x of
   0 -> "null"
   1 -> "eins"
-  _ -> "etwas anderes" 
+  _ -> "etwas anderes"
 
--- Warum case of so nützlich? Typ-sicher: Compiler prüft auf vollständigkeit; Ersetzt if-then-else; effizienter als Guards

@@ -1,0 +1,154 @@
+
+Klausuraufgabe (kommt häufig in ähnlicher Form):
+
+Bewerten Sie, ob die folgende Aussage korrekt ist und begründen Sie Ihre Antwort:
+
+    "Jede endrekursive Funktion ist auch linear rekursiv umsetzbar."
+
+Kurzantwort: Ja — jede endrekursive Funktion lässt sich in eine (äquivalente) linear rekursive Funktion umschreiben.
+
+Begründung und Beispiele:
+
+1) Endrekursion -> lineare Rekursion (allgemein möglich)
+
+Endrekursion liegt vor, wenn der rekursive Aufruf der letzte Ausdruck in der Funktion ist und kein weiterer Work nach dem Rückkehr des rekursiven Aufrufs nötig ist.
+Solche Funktionen kann man häufig in eine "normale" (linear rekursive) Form zurückführen, weil der Akkumulator-Wert oder das Zwischenergebnis, 
+das im Endrekursions-Argument getragen wird, einfach als Ergebnis der linearen Rekursion berechnet werden kann.
+
+Beispiel: Fakultät als endrekursive Funktion (mit Akkumulator)
+
+Pseudocode (endrekursiv, mit Akkumulator acc):
+
+    func fak(n, acc):
+        if n == 0:
+            return acc
+        return fak(n-1, n * acc)
+
+Aufruf: fak(3, 1)
+    fak(3, 1) -> fak(2, 3) -> fak(1, 6) -> fak(0, 6) -> 6
+
+Die äquivalente lineare (also konventionelle) Version ohne Akkumulator:
+
+    func fak(n):
+        if n == 0:
+            return 1
+        return n * fak(n-1)
+
+Beide Varianten liefern das gleiche Ergebnis; die endrekursive Version verwendet einen zusätzlichen Parameter (Akkumulator), 
+die lineare Version multipliziert beim Zurückkehren aus der Rekursion.
+
+2) Linear rekursiv -> endrekursiv (nicht immer trivial)
+
+Die Umwandlung einer beliebigen linear rekursiven Funktion in endrekursive Form ist nicht immer direkt möglich oder einfach. 
+Ob es geht, hängt davon ab, ob das Ergebnis schrittweise als Akkumulator aufgebaut werden kann, 
+ohne dass noch weitere Operationen nach dem rekursiven Aufruf nötig sind.
+
+Beispiel (lineare Rekursion):
+
+    func f(x):
+        if x == 0:
+            return 1
+        return 2 * f(x-1) + 1
+
+Expandiertes Beispiel für x = 3:
+
+    f(3) = 2 * f(2) + 1
+         = 2 * (2 * f(1) + 1) + 1
+         = 2 * (2 * (2 * f(0) + 1) + 1) + 1
+         = 2 * (2 * (2 * 1 + 1) + 1) + 1 = 15
+
+Warum ist hier die direkte Endrekursions-Umwandlung nicht offensichtlich?
+
+Bei einer endrekursiven Version müsste man einen Akkumulator nehmen und beim Abstieg (bzw. direkt beim Aufruf) die nötigen Werte so zusammensetzen, 
+dass am Ziel (x == 0) das Endergebnis im Akkumulator steht. 
+Bei der Rekurrence 2 * f(x-1) + 1 ist das Ergebnis auf jeder Ebene eine lineare Kombination des Ergebnisses der tieferen Ebene: f(x) = 2^x * f(0) + (2^x - 1).
+
+Man kann solche Rekurrenzen zwar oft in eine endrekursive Form überführen — manchmal ist dazu eine Umformung nötig, in anderen Fällen genügt ein einziger Akkumulator.
+
+Für das konkrete Beispiel f(x) = 2 * f(x-1) + 1 mit f(0)=1 existiert eine geschlossene Form:
+
+    f(x) = 2^{x+1} - 1
+
+Beweis (kurz, per Induktion):
+Basis: x=0 -> 2^{0+1} - 1 = 2 - 1 = 1 = f(0).
+Induktionsschritt: Angenommen f(k) = 2^{k+1} - 1. Dann
+
+    f(k+1) = 2 * f(k) + 1 = 2 * (2^{k+1} - 1) + 1 = 2^{k+2} - 2 + 1 = 2^{k+2} - 1.
+
+Damit gilt die Formel.
+
+Endrekursive Umsetzung (einfacher als erwartet):
+
+Wir können die Rekursion auch direkt tail-reakursiv (endrekursiv) schreiben, indem der Akkumulator immer den aktuellen Wert f(i) für das bereits bearbeitete i hält. Die iterative Idee ist:
+
+    acc := f(0) = 1
+    Wiederhole x-mal: acc := 2*acc + 1
+    Ergebnis = acc
+
+Als endrekursive Pseudocode-Funktion:
+
+    func f_tail(x, acc):
+        if x == 0:
+            return acc
+        return f_tail(x-1, 2*acc + 1)
+
+Aufruf: f_tail(3, 1) => f_tail(2, 3) => f_tail(1, 7) => f_tail(0, 15) => 15
+
+Das zeigt: auch dieses Beispiel lässt sich in eine endrekursive Form bringen — oft genügt ein Akkumulator. Bei komplizierteren Rekurrenzen (z. B. solchen, die mehrere unabhängige rekursive Aufrufe kombinieren wie naive Fibonacci) ist eine reine Endrekursion ohne Hilfsinformationen schwieriger oder ineffizient.
+
+Zusammenfassung:
+
+- Jede endrekursive Funktion kann in eine äquivalente linear rekursive Version überführt werden (Akkumulator entfernt, Rechnung beim Zurückkehren durchführen).
+- Die Umkehrung (jede lineare rekursive Funktion endrekursiv machen) ist nicht immer trivial; manche linearen Rekursionen lassen sich nur durch Einführung zusätzlicher Akkumulatoren oder durch Umformung (z. B. Verwendung einer geschlossenen Form) in endrekursive Form bringen.
+
+Hinweise für die Klausur:
+
+- Nennen Sie ein einfaches Beispiel (z. B. Fakultät) und zeigen Sie beide Versionen (endrekursiv mit Akkumulator und lineare Version). 
+- Erklären Sie das Prinzip: Endrekursion trägt das Zwischenergebnis in Parametern; lineare Rekursion baut das Ergebnis beim Zurückkehren auf.
+- Wenn Sie eine lineare Rekursion in endrekursiv umwandeln wollen, geben Sie an, welche zusätzlichen Akkumulatoren oder Umformungen nötig wären (kurze Skizze genügt).
+
+Optional: kurzer Induktionsbeweis für die geschlossene Form des Beispiels f(x)=2*f(x-1)+1 mit f(0)=1.
+
+
+
+aufrufen fak methode (endrekursiv) mit n von der wir die fakultät 
+berechnen wollen und acc = 1 (neutrales element der multiplikation)
+
+func fak(n, acc)
+    if (n == 0)
+        return acc
+    return fak (n-1, n * acc)
+
+z.B. mit n = 3
+
+fak(3, 1) => fak(3-1, 1*3) = fak(2, 3) => fak(2-1, 3*2) = fak(1, 6) => fak(1-1, 6*1) = fak(0,6) => base case => return acc = 6
+
+umschreiben zu linear rekursiv:
+
+func fak(n)
+    if (n == 0)
+        return 1 # hier neutrales element hin
+    return n * fak(n-1) # n * acc aus der funktion "herausziehen"
+
+
+
+anders herum, also linear rekursive zu endrekursive geht aber nicht immer: 
+
+z.b. wenn wir berechnen wollen f(x) = 2 * f(x-1) + 1 mit f(0) = 1
+
+linear rekursiv
+
+func f(x)
+    if (x == 0)
+        return 1
+    return 2 * f(x-1) + 1
+
+beispiel aufruf mit x = 3
+
+f(3) = 2 * f(2) + 1 
+     = 2 * [2 * f(1) + 1] + 1
+     = 2 * [2 * {2 * f(0) + 1} + 1] + 1
+     = 2 * [2 * {2 * 1 + 1} + 1] + 1
+
+wenn wir das jetzt in endrekursion konvertieren wollen würden, ginge das nicht, 
+da wir zwingend wegen der addition den nächsten wert wissen müssen und nicht einfach auf 1 die ganze zeit mal rechnen können.
