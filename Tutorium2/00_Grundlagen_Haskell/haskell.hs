@@ -26,7 +26,7 @@ func' x y = x + y
 
 -- bisschen vorgegriffen eventuell, aber so können wir auch rekursion machen
 -- bei einem rekursiven algorithmus brauchen wir dabei immer einen Basisfall (mit diesem "bricht" die Rekursion ab)
--- beispiel Fakultät: z.b. 6! = 6 * 4 * 3 * 2 * 1
+-- beispiel Fakultät: z.b. 6! = 6 * 5 * 4 * 3 * 2 * 1
 
 
 fak :: Integer -> Integer
