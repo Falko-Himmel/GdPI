@@ -1,0 +1,8 @@
+tabelle mit 3 eingaben
+1 lösung gibt es in der Wertetabelle
+
+a <=> b
+(a && b)  || (not a && not b)
+
+blatt 1 besprechen
+aufgabe 1 sortieren nach gewicht und skilllevel auch ok
