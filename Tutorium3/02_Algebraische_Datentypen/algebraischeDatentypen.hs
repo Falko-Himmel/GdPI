@@ -44,6 +44,6 @@ numberToMaybeString _ = Nothing
 --     | Right b
 --   deriving (Show, Eq)
 
--- Aufgabe: Funktion die gerade Zahl in Left und gerade in Right verpackt
+-- Aufgabe: Funktion die gerade Zahl in Left und ungerade in Right verpackt
 evenOddEither :: Integer -> Either Integer Integer
 evenOddEither x = if even x then Left x else Right x -- if then else hattet ihr noch nicht in der Vorlesung, kommt in der nächsten
