@@ -20,6 +20,21 @@ getWochentag 6 = Samstag
 getWochentag 7 = Sonntag
 getWochentag _ = error "Ungültiger Wochentag"
 
+printWochentagZahl :: Wochentag -> Integer
+printWochentagZahl Montag    = 1
+printWochentagZahl Dienstag  = 2
+printWochentagZahl Mittwoch  = 3
+printWochentagZahl Donnerstag = 4
+printWochentagZahl Freitag   = 5
+printWochentagZahl Samstag   = 6
+printWochentagZahl Sonntag   = 7
+
+
+-- funktioniert nur mit dem deriving Eq
+foo :: Wochentag -> String
+foo x = if x == Montag then "ja" else "nein"
+
+
 data Obst = Apfel | Banane | Orange | Birne
   deriving (Show, Eq)
 
@@ -28,6 +43,9 @@ data Obst = Apfel | Banane | Orange | Birne
 -- hier werden verschiedene Werte zu einem neuen Typ kombiniert
 data Person = Person String Integer -- Person mit Name und Alter
   deriving (Show, Eq)
+
+printName :: Person -> String
+printName (Person x y) = x
 
 data Auto = Auto String String Integer -- Auto mit Marke, Modell und Baujahr
   deriving (Show, Eq)
