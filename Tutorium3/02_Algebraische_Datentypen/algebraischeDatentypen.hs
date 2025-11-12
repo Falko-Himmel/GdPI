@@ -8,6 +8,18 @@ data Wochentag = Montag | Dienstag | Mittwoch | Donnerstag | Freitag | Samstag |
   deriving (Show, Eq) -- dadurch werden Eigenschaften für Ausgabe und Vergleich automatisch durch Haskell generiert
     
 
+
+
+getWochentag :: Integer -> Wochentag
+getWochentag 1 = Montag
+getWochentag 2 = Dienstag
+getWochentag 3 = Mittwoch
+getWochentag 4 = Donnerstag
+getWochentag 5 = Freitag
+getWochentag 6 = Samstag
+getWochentag 7 = Sonntag
+getWochentag _ = error "Ungültiger Wochentag"
+
 data Obst = Apfel | Banane | Orange | Birne
   deriving (Show, Eq)
 
