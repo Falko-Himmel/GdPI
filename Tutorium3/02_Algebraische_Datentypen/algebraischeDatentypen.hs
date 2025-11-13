@@ -35,17 +35,17 @@ foo :: Wochentag -> String
 foo x = if x == Montag then "ja" else "nein"
 
 
-data Obst = Apfel | Banane | Orange | Birne
+data Obst = Apfel Double| Banane Int| Orange | Birne
   deriving (Show, Eq)
 
 
 -- Produktdatentypen (vgl Java Klassen)
 -- hier werden verschiedene Werte zu einem neuen Typ kombiniert
-data Person = Person String Integer -- Person mit Name und Alter
+data Person = Person String Integer 
   deriving (Show, Eq)
 
 printName :: Person -> String
-printName (Person x y) = x
+printName (Person name alter) = name
 
 data Auto = Auto String String Integer -- Auto mit Marke, Modell und Baujahr
   deriving (Show, Eq)
