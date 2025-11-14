@@ -2,13 +2,13 @@
 -- Max, Falko, Tom stehen jeweils dafür, dass die Person die Wahrheit sagt (True) oder lügt (False).
 -- Ziel: A1 && A2 && A3 soll genau EINE Lösung haben und festlegen, wer lügt.
 -- Dazu brechen wir die Symmetrie zwischen Max und Falko leicht:
--- 1) Max sagt: "Falko lügt"        ⇒ A1: Max ↔ ¬Falko
--- 2) Falko sagt: "Tom lügt"        ⇒ A2: Falko ↔ ¬Tom
--- 3) Tom sagt: "Genau einer der beiden (Max,Falko) hat recht" ⇒ A3: Tom ↔ (Max ⊕ Falko)
+-- 1) Max sagt: "Falko lügt"        
+-- 2) Falko sagt: "Tom lügt"        
+-- 3) Tom sagt: "Genau einer der beiden (Max,Falko) hat recht"
 
 -- Als Bool-Formeln (nur mit Max, Falko, Tom):
--- A1: (Max && not Falko) || (not Max && Falko)                         -- Max ↔ ¬Falko  (≡ Max ⊕ Falko)
--- A2: (Falko && not Tom)  || (not Falko && Tom)                        -- Falko ↔ ¬Tom   (≡ Falko ⊕ Tom)
+-- A1: (Max && not Falko) || (not Max && Falko)                        
+-- A2: (Falko && not Tom)  || (not Falko && Tom)                        
 -- A3: (Tom && ((Max && not Falko) || (not Max && Falko))) || (not Tom && not ((Max && not Falko) || (not Max && Falko)))
 -- Wahrheitstabelle
 -- Max  Falko Tom | A1 | A2 | A3 | A1 && A2 && A3
@@ -17,7 +17,7 @@
 --  0     1    0    1     1    0          0
 --  0     1    1    1     0    1          0
 --  1     0    0    1     0    0          0
---  1     0    1    1     1    1          1  ← einzige Lösung
+--  1     0    1    1     1    1          1   Lösung
 --  1     1    0    0     1    1          0
 --  1     1    1    0     0    0          0
 
