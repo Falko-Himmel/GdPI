@@ -5,7 +5,7 @@
 -- bei diesem Typ "zählt" man eine Menge an Werten auf, die der Typ annehmen kann
 
 data Wochentag = Montag | Dienstag | Mittwoch | Donnerstag | Freitag | Samstag | Sonntag
-  deriving (Show, Eq) -- dadurch werden Eigenschaften für Ausgabe und Vergleich automatisch durch Haskell generiert
+  deriving (Show, Eq) -- Show für Ausgabe, Eq für Vergleich
     
 
 
@@ -28,6 +28,9 @@ printWochentagZahl Donnerstag = 4
 printWochentagZahl Freitag   = 5
 printWochentagZahl Samstag   = 6
 printWochentagZahl Sonntag   = 7
+
+
+
 
 
 -- funktioniert nur mit dem deriving Eq
@@ -76,4 +79,4 @@ numberToMaybeString _ = Nothing
 
 -- Aufgabe: Funktion die gerade Zahl in Left und ungerade in Right verpackt
 evenOddEither :: Integer -> Either Integer Integer
-evenOddEither x = if even x then Left x else Right x -- if then else hattet ihr noch nicht in der Vorlesung, kommt in der nächsten
+evenOddEither x = if even x then Left x else Right x 
