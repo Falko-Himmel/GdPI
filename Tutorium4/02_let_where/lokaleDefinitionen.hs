@@ -1,3 +1,29 @@
+-- bei dem letzten übungsblatt hatten wir die aufgabe boolesche ausdrücke als haskellfunktion zu schreiben
+-- z.b.Applicative
+
+foo :: Bool -> Bool -> Bool -> Bool
+foo x y z = (x || y) && (x || z ) && (y || z)
+
+-- das können wir jetzt auslagern, dass übersichtlicher wird
+
+
+
+-- aber so sind unsere minterme auch global sichtbar, was wir vielleicht nicht wollen
+-- die lösung: lokale definitionen mit let oder where (machen eigentlich das gleiche)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- angenommen wir haben die Aufgabe einen Algorithmus zu schreiben, der uns bei einer eingabe von 3 zahlen sagen soll gleich 2 ist
 checkIfTwo :: Int -> Int -> Int -> String
 checkIfTwo x y z =
