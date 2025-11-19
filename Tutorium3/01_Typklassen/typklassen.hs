@@ -39,7 +39,7 @@ numberToString'' _ = "fehler"
 
 -- mit dem anderen Beispiel
 -- hier brauchen wir auch wieder Num und akzeptieren damit Typen wie Integer, Double, Float und weitere
--- zusätzlich aber auch ncoh Ord, da wir ja unseren Parameter auf > vergleichen. Heißt der Typ muss eine Ordnung besitzen
+-- zusätzlich aber auch noch Ord, da wir ja unseren Parameter auf > vergleichen. Heißt der Typ muss eine Ordnung besitzen
 
 greaterFive'' :: (Ord a, Num a) => a -> Bool
 greaterFive'' x = x > 5
