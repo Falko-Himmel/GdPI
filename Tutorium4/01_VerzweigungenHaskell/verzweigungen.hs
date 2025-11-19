@@ -1,6 +1,8 @@
 --  in haskell gibt es verschiedene möglichkeiten verzweigungen zu machen
 --  eine Möglichkeit ist if then else (ähnlich wie in python, java, c++, ...)
 --  unser beispielalgorithmus soll zu einer zahl sagen, ob die zahl positiv, neutral oder negativ ist
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use guards" #-}
 
 
 signumIf :: Integer -> String
