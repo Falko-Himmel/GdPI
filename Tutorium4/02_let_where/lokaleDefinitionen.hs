@@ -1,3 +1,47 @@
+foo :: Bool -> Bool -> Bool -> Bool
+foo x y z = (x || y || z) &&  ( not x && y && z)
+
+-- -------------------
+
+
+
+aussage1 :: Bool -> Bool -> Bool -> Bool
+aussage1 x y z = (x || y || z)
+
+aussage2 :: Bool -> Bool -> Bool -> Bool
+aussage2 x y z = ( not x && y && z)
+
+foo' :: Bool -> Bool -> Bool -> Bool
+foo' x y z = aussage1 x y z && aussage2 x y z
+
+
+-- -------------------
+
+foo'' :: Bool -> Bool -> Bool -> Bool
+foo'' x y z = let aussage1' x y z = (x || y || z)
+                  aussage2' x y z = ( not x && y && z)
+                 in 
+                  aussage1' x y z && aussage2' x y z
+
+foo''' :: Bool -> Bool -> Bool -> Bool
+foo''' x y z = aussage1' x y z && aussage2' x y z
+    where 
+        aussage1' x y z = (x || y || z)
+        aussage2' x y z = ( not x && y && z)
+
+        
+
+fak :: (Eq t, Num t) => t -> t
+fak n = fak' n 1
+    where 
+        fak' 0 acc = acc
+        fak' n acc = fak' (n-1) (n*acc)
+
+
+
+
+
+
 -- angenommen wir haben die Aufgabe einen Algorithmus zu schreiben, der uns bei einer eingabe von 3 zahlen sagen soll gleich 2 ist
 checkIfTwo :: Int -> Int -> Int -> String
 checkIfTwo x y z =
