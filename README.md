@@ -1,44 +1,117 @@
-# GdPI - Tutoren Workspace
+# GdPI - Grundlagen der Praktischen Informatik
 
-Privates Repository für unser Tutoren-Team zur gemeinsamen Erstellung von Materialien für das GdPI-Tutorium.
+Tutoren-Repository für die Erstellung von Übungsmaterialien und Beispielen zum GdPI-Tutorium mit Fokus auf funktionale Programmierung in Haskell.
 
-## 📝 Was machen wir hier?
+## 📋 Überblick
 
-- Entwicklung zusätzlicher Übungsaufgaben in **Haskell**
-- Erstellung eigener Beispiele und Erklärungen
-- Sammlung von Ideen für das Tutorium
-- Austausch von Lösungsansätzen und Methoden
+Dieses Repository dient als zentrale Sammlung von Tutoriumsmaterialien, Codebeispielen und Übungen für das GdPI-Tutorium. Die Inhalte sind thematisch nach Tutorien organisiert und decken grundlegende bis fortgeschrittene Konzepte der funktionalen Programmierung ab.
 
-## 🎯 Ziel
-
-Ergänzende Materialien erstellen, die über die vorgegebenen Modulinhalte hinausgehen und unseren Erstsemestern beim Verständnis der funktionalen Programmierung helfen.
-
-## 🚀 Aktuelle Struktur
+## 🗂️ Repository-Struktur
 
 ```
-├── foldrToRecursive/
-│   └── foldrToRecursive.hs          # Übungen zu fold-Funktionen und Rekursion
-├── haskellInJava/
-│   ├── haskellExamples.hs           # Haskell-Beispiele
-│   └── javaExamples.java            # Vergleichbare Java-Implementierungen
-├── playground/
-│   └── playground.hs               # Experimenteller Code und Tests
+GdPI/
 ├── Tutorium1/
-│   └── todo.txt                     # Aufgaben und Notizen für Tutorium 1
-├── verzweigungenHaskellJava/
-│   └── verzweigungen.hs            # Beispiele für Verzweigungen und Bedingungen
-└── README.md                        # Diese Datei
+│   ├── ex00.hs                          # Einführungsübungen
+│   ├── lineare_end_rekursion.txt        # Notizen zu Rekursionsarten
+│   └── todo.txt                         # Aufgaben und Planung
+├── Tutorium2/
+│   └── 00_Grundlagen_Haskell/
+│       └── haskell.hs                   # Grundlegende Haskell-Konzepte
+├── Tutorium3/
+│   ├── 01_Typklassen/
+│   │   └── typklassen.hs                # Einführung in Typklassen
+│   ├── 02_Algebraische_Datentypen/
+│   │   └── algebraischeDatentypen.hs    # ADTs und Musterabgleich
+│   ├── LogikExkurs/
+│   │   ├── Logik.hs                     # Logische Ausdrücke
+│   │   └── Rätsel.hs                    # Logik-Rätsel
+│   └── anmerkungen.txt                  # Zusätzliche Hinweise
+├── Tutorium4/
+│   ├── 01_VerzweigungenHaskell/
+│   │   └── verzweigungen.hs             # Guards, Case, If-Then-Else
+│   ├── 02_let_where/
+│   │   └── lokaleDefinitionen.hs        # Let- und Where-Bindings
+│   ├── 04_Vector/
+│   │   └── vector.hs                    # Vektoroperationen
+│   └── vectors.hs                       # Vektorbeispiele
+├── Tutorium5/
+│   ├── Listen.hs                        # Listenoperationen
+│   └── Listenkomprehension.hs           # List Comprehensions
+├── Tutorium6/
+│   └── map.hs                           # Map und Higher-Order Functions
+├── HaskellBsp/
+│   └── Test.hs                          # Testbeispiele
+├── foldrToRecursive/
+│   └── foldrToRecursive.hs              # Fold-Funktionen und Rekursion
+├── haskellInJava/
+│   ├── haskellExamples.hs               # Haskell-Beispiele
+│   └── javaExamples.java                # Vergleichende Java-Implementierungen
+├── playground/
+│   └── playground.hs                    # Experimenteller Code
+└── README.md
 ```
 
-### 📁 Ordner-Übersicht
+## 📚 Themenübersicht
 
-- **`foldrToRecursive/`** - Materialien zu fold-Funktionen und rekursiven Ansätzen
-- **`haskellInJava/`** - Vergleichende Beispiele zwischen Haskell und Java
-- **`playground/`** - Experimenteller Bereich für neue Ideen und Tests
-- **`Tutorium1/`** - Spezifische Materialien und Aufgaben für das erste Tutorium
-- **`verzweigungenHaskellJava/`** - Beispiele für Kontrollstrukturen und Verzweigungen
+### Grundlagen (Tutorium 1-2)
+- Einführung in Haskell-Syntax
+- Rekursion (linear, endrekursiv)
+- Grundlegende Funktionen und Ausdrücke
+
+### Typsystem (Tutorium 3)
+- **Typklassen**: Eq, Ord, Show, Num
+- **Algebraische Datentypen**: Sum Types, Product Types
+- **Musterabgleich**: Pattern Matching
+- **Logik**: Boolesche Ausdrücke und Logikrätsel
+
+### Kontrollstrukturen (Tutorium 4)
+- **Verzweigungen**: Guards, Case-Ausdrücke, If-Then-Else
+- **Lokale Definitionen**: Let-Bindings, Where-Klauseln
+- **Vektoren**: Operationen auf Vektoren
+
+### Listen und Higher-Order Functions (Tutorium 5-6)
+- **Listenoperationen**: head, tail, take, drop, etc.
+- **List Comprehensions**: Listengeneratoren und Filter
+- **Map und Fold**: Higher-Order Functions
+- **Rekursive Patterns**: Von fold zu expliziter Rekursion
+
+### Vergleiche und Beispiele
+- **Haskell vs. Java**: Konzeptvergleiche zwischen funktionaler und objektorientierter Programmierung
+- **Praxisbeispiele**: Anwendungsfälle und Lösungsansätze
+
+## 🛠️ Build & Test
+
+Dieses Projekt verwendet Stack als Build-Tool:
+
+```bash
+# Projekt bauen
+stack build
+
+# Tests ausführen
+stack test
+
+# Projekt neu bauen (mit Clean)
+stack clean && stack build
+
+# Watch-Modus (automatisches Rebuild)
+stack build --test --no-run-tests --file-watch
+```
+
+## 🎯 Lernziele
+
+- Verständnis funktionaler Programmierkonzepte
+- Beherrschung der Haskell-Syntax und -Semantik
+- Fähigkeit zur Implementierung rekursiver Algorithmen
+- Anwendung von Higher-Order Functions
+- Typsicheres Programmieren mit algebraischen Datentypen
 
 ## 👥 Team
 
-Gemeinsamer Arbeitsbereich für unser 3er-Tutoren-Team.
+Gemeinsamer Arbeitsbereich des Tutoren-Teams für GdPI (WiSe 2025/26).
+
+
+
+---
+
+*Stand: November 2025*
 
