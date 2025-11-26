@@ -1,10 +1,10 @@
-# GdPI - Grundlagen der Programmierung I
+# GdPI - Grundlagen der Praktischen Informatik
 
 Tutoren-Repository für die Erstellung von Übungsmaterialien und Beispielen zum GdPI-Tutorium mit Fokus auf funktionale Programmierung in Haskell.
 
 ## 📋 Überblick
 
-Dieses Repository dient als zentrale Sammlung von Unterrichtsmaterialien, Codebeispielen und Übungen für das GdPI-Tutorium. Die Inhalte sind thematisch nach Tutorien organisiert und decken grundlegende bis fortgeschrittene Konzepte der funktionalen Programmierung ab.
+Dieses Repository dient als zentrale Sammlung von Tutoriumsmaterialien, Codebeispielen und Übungen für das GdPI-Tutorium. Die Inhalte sind thematisch nach Tutorien organisiert und decken grundlegende bis fortgeschrittene Konzepte der funktionalen Programmierung ab.
 
 ## 🗂️ Repository-Struktur
 
