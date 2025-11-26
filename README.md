@@ -1,3 +1,5 @@
+##REAME outdated
+
 # GdPI - Tutoren Workspace
 
 Privates Repository für unser Tutoren-Team zur gemeinsamen Erstellung von Materialien für das GdPI-Tutorium.
