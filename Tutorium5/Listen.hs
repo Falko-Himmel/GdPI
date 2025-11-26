@@ -23,7 +23,7 @@
 -- Wichtige Funktionen auf Listen
 -- Wir wollen den Kopf einer übergebenen Liste erhalten
 head' :: [a] -> a
-head' (x:xs) = x
+head' (x:xs) = x -- 1 : [2, 3, 4]
 
 -- hier spalten wir das erste Element der Liste ab (durch x:xs, also x ist der Kopf und xs die restliche Liste)
 -- bei ausführung von 
@@ -108,7 +108,7 @@ testRemoveTwos = removeTwos [1, 2, 3, 2, 4, 2, 5] -- hier erhalten wir [1, 3, 4,
 -- Konkatenation von Listen einfach über den Operator (++)
 -- Beispiel:
 concatLists :: [a] -> [a] -> [a]
-concatLists xs ys = xs ++ ys
+concatLists xs ys = xs ++ ys    
 
 -- beispielhafte Ausführung:
 test4 :: [Int]
