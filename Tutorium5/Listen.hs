@@ -35,6 +35,13 @@ test = head' [1, 2, 3, 4] -- erhalten wir 1, da x:xs = 1:[2,3,4]
 -- eine Liste aus Chars [Char] ist ein String
 -- ['H', 'a', 'l', 'l', 'o'] == "Hallo"
 
+-- Aufgabe: Wir suchen ein Element x und wollen das erste passende Element zurückgeben
+findFirst :: (Num a, Eq a) => a -> [a] -> a
+findFirst _ [] = -1 -- leere Liste => -1 als Fehlerwert
+findFirst p (x:xs)
+  | p == x =  x
+  | otherwise = findFirst p xs 
+
 -- Aufgabe: Wir wollen bei einer übergebenen Listen mit positiven Zahlen den ersten Wert zurückgeben der größer ist als der übergebene Parameter
 firstGreaterThan :: (Ord a, Num a) => a -> [a] -> a
 firstGreaterThan _ [] = -1 -- hier behandeln wir den Fall, dass die Liste leer ist (-1 ist Fehlerwert)
