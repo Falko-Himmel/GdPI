@@ -10,7 +10,6 @@ public class javaExamples {
         List<Integer> numbers = List.of(1, 2, 3, 4, 5);
         traditionalSum(numbers);
         streamsSum(numbers);
-        rekSum(numbers);
 
         traditionalEvenMaybeFilter(numbers);
         traditionalMaybeFilter((Integer x) -> x % 2 == 0, numbers);
