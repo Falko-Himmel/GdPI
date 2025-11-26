@@ -79,23 +79,7 @@ GdPI/
 - **Haskell vs. Java**: Konzeptvergleiche zwischen funktionaler und objektorientierter Programmierung
 - **Praxisbeispiele**: Anwendungsfälle und Lösungsansätze
 
-## 🛠️ Build & Test
 
-Dieses Projekt verwendet Stack als Build-Tool:
-
-```bash
-# Projekt bauen
-stack build
-
-# Tests ausführen
-stack test
-
-# Projekt neu bauen (mit Clean)
-stack clean && stack build
-
-# Watch-Modus (automatisches Rebuild)
-stack build --test --no-run-tests --file-watch
-```
 
 ## 🎯 Lernziele
 
@@ -109,7 +93,17 @@ stack build --test --no-run-tests --file-watch
 
 Gemeinsamer Arbeitsbereich des Tutoren-Teams für GdPI (WiSe 2025/26).
 
+## ⚠️ Haftungsausschluss
 
+Die hier bereitgestellten Materialien dienen ausschließlich als **ergänzende Lernhilfe** und wurden von Tutoren erstellt. Sie ersetzen nicht die offiziellen Vorlesungsmaterialien und Skripte.
+
+**Wichtige Hinweise:**
+- Keine Garantie für Vollständigkeit oder Korrektheit der Inhalte
+- Keine Haftung für eventuelle Fehler oder Ungenauigkeiten
+- Die offiziellen Vorlesungsunterlagen sind stets maßgeblich
+- Bei Widersprüchen gelten die offiziellen Lehrmaterialien
+
+Die Nutzung erfolgt auf eigene Verantwortung. Wir empfehlen, die Inhalte kritisch zu prüfen und bei Unklarheiten die Dozenten zu konsultieren.
 
 ---
 
