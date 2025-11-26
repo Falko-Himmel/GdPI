@@ -42,6 +42,15 @@ findFirst p (x:xs)
   | p == x =  x
   | otherwise = findFirst p xs 
 
+-- Aufgabe: den n-ten Wert aus einer Liste zurückgeben
+nthElement :: Int -> [a] -> a
+nthElement 0 (x:_)  = x -- wenn n 0 ist, geben
+nthElement _ []     = error "Index out of bounds" -- wenn die Liste leer ist, Fehler
+nthElement n (_:xs) = nthElement (n-1) xs -- ansonsten rekursiv weitersuchen
+
+
+
+
 -- Aufgabe: Wir wollen bei einer übergebenen Listen mit positiven Zahlen den ersten Wert zurückgeben der größer ist als der übergebene Parameter
 firstGreaterThan :: (Ord a, Num a) => a -> [a] -> a
 firstGreaterThan _ [] = -1 -- hier behandeln wir den Fall, dass die Liste leer ist (-1 ist Fehlerwert)
