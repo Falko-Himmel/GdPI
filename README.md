@@ -103,8 +103,7 @@ Die hier bereitgestellten Materialien dienen ausschließlich als **ergänzende L
 - Die offiziellen Vorlesungsunterlagen sind stets maßgeblich
 - Bei Widersprüchen gelten die offiziellen Lehrmaterialien
 
-Die Nutzung erfolgt auf eigene Verantwortung. Wir empfehlen, die Inhalte kritisch zu prüfen und bei Unklarheiten die Dozenten zu konsultieren.
-
+Die Nutzung erfolgt auf eigene Verantwortung. Wir empfehlen, die Inhalte kritisch zu prüfen und bei Unklarheiten einfach nochmal nachzufragen.
 ---
 
 *Stand: November 2025*
