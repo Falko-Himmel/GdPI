@@ -73,6 +73,11 @@ test2 = firstGreaterThan 3 [1, 2, 3, 4, 5] -- hier erhalten wir 4
 -- 4 > 3 ? yes => return 4
 
 
+-- nächste Aufgabe: Wir wollen ein Element ans Ende einer Liste anhängen
+cons :: [a] -> a -> [a]
+cons [] el     = [el]        -- wenn die Liste leer ist, fügen wir das Element in die leere Liste ein (Basisfall)
+cons (x:xs) el = x : cons xs el -- ansonsten fügen wir das Element rekursiv ans Ende der Liste
+
 -- nächste Aufgabe zum einfügen eines Elements: wir wollen einen index übergeben ab diesem das Element eingefügt werden soll. 
 -- Ist der index zu groß so soll das Element am Ende der Liste angefügt werden.
 insertAt :: a -> Int -> [a] -> [a]
