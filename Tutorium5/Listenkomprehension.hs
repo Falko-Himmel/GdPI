@@ -14,3 +14,9 @@ evenSquares :: [Int]
 evenSquares = [x^2 | x <- [1..10], even x]
 -- Hier ist der Ausdruck x^2, der Generator x <- [1..10] und der Filter even x
 -- hier werden dann die Zahlen von 1..10 genommen, geprüft ob sie gerade sind und wenn ja wird das Quadrat in die Liste aufgenommen
+
+-- Aufgabe: Wir wollen eine Liste aller Vielfachen von 3 zwischen 1 und 30 erstellen
+multiplesOfThree :: [Int]
+multiplesOfThree = [x | x <- [1..30], x `mod` 3 == 0]
+-- Hier ist der Ausdruck x, der Generator x <- [1..30] und der Filter x `mod` 3 == 0
+-- damit erhalten wir die Liste [3,6,9,12,15,18,21,24,27,30]

@@ -78,6 +78,16 @@ cons :: [a] -> a -> [a]
 cons [] el     = [el]        -- wenn die Liste leer ist, fügen wir das Element in die leere Liste ein (Basisfall)
 cons (x:xs) el = x : cons xs el -- ansonsten fügen wir das Element rekursiv ans Ende der Liste
 
+-- weil: cons [1, 2, 3] 4
+-- x = 1, xs = [2,3]
+-- return 1 : cons [2,3] 4
+-- x = 2, xs = [3]
+-- return 2 : cons [3] 4
+-- x = 3, xs = []
+-- return 3 : cons [] 4
+-- xs = [] => Basisfall => return [4]
+-- also insgesamt: [1, 2, 3, 4]
+
 -- nächste Aufgabe zum einfügen eines Elements: wir wollen einen index übergeben ab diesem das Element eingefügt werden soll. 
 -- Ist der index zu groß so soll das Element am Ende der Liste angefügt werden.
 insertAt :: a -> Int -> [a] -> [a]
