@@ -4,6 +4,15 @@
 {-# HLINT ignore "Avoid lambda using `infix`" #-}
 
 
+-- kurze wiederholung zu lamda funktionen:
+-- lamda funktionen sind anonyme funktionen die man "on the fly" erstellen kann
+--  dabei fangen lamda funktionen mit einem \ an, gefolgt von den parametern, dann einem -> und dem ausdruck der ausgeführt werden soll
+-- beispiel einer lamda funktion die eine zahl um 1 erhöht:
+addOne :: Int -> Int
+addOne x = (\x -> x + 1) x
+
+
+
 -- Bei maps geht es darum eine Liste an Elementen zu nehmen und auf jedes Element eine Funktion anzuwenden um eine neue Liste zu erzeugen.
 -- Dabei wird bei dem map jedes Element der Liste auf genau ein Element der neuen Liste abgebildet (daher der Name map)
 
@@ -43,6 +52,14 @@ doubleEvens xs = map (\x -> if even x then x * 2 else x) xs
 -- das map führt dann auch hier wieder dieses lamda für alle Elemente der Liste aus und bildet 
 -- dann eine neue Liste wobei die Anzahl der Elemente und die Reihenfolge der dann abgebildeten Elemente gleich bleibt.
 
+
+convertNumberToString :: [Int] -> [String]
+convertNumberToString xs = map (\x -> print' x) xs
+    where print' 1 = "one"
+          print' 2 = "two"
+          print' 3 = "three"
+          print' _ = "unknown number"
+          
 
 
 

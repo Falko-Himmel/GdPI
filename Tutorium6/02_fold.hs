@@ -5,9 +5,18 @@
 
 -- foldr und foldl sind Funktionen, die eine binäre Funktion, einen Anfangswert (Akkumulator) und eine Liste nehmen und die Funktion wiederholt anwenden, um einen einzigen Wert zu erzeugen.
 -- Der Unterschied zwischen foldr (fold right) und foldl (fold left) liegt in der Richtung, in der die Liste verarbeitet wird.
+
+-- foldr wendet die Funktion von rechts nach links an, foldl von links nach rechts.
 -- foldr bildet einen rekursiven Term von rechts nach links, während foldl die Schritte "einzeln" von links nach rechts macht.
 
--- Fold verhält sich manchmal gleich:
+
+-- WICHTIG ZUM MERKEN: map reduziert die Anzahl der Elemente in der Liste NICHT, sondern bildet jedes Element auf genau ein Element ab.
+-- Fold hingegen reduziert die Liste auf einen einzigen Wert. (Element kann aber auch eine Liste sein)
+
+
+-- foldl und foldr verhält sich manchmal gleich:
+
+--  bsp.: summe berechnen:
 foldSumr :: (Foldable t, Num b) => t b -> b
 foldSumr xs = foldr (+) 0 xs
 -- foldSumr [1,2,3,4,5] = 1+(2+(3+(4+(5+0)))) = 15
@@ -17,7 +26,7 @@ foldSuml xs = foldl (+) 0 xs
 -- foldSuml [1,2,3,4,5] = ((((0+1)+2)+3)+4)+5 = 15
 
 
--- Unterschied erkennbar bei division:
+-- Unterschied erkennbar bei division: (da die division nicht kommutativ ist)
 
 foldDivr :: (Foldable t, Fractional b) => t b -> b
 foldDivr xs = foldr (/) 1 xs
