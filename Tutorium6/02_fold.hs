@@ -20,7 +20,7 @@
 foldSumr :: (Foldable t, Num b) => t b -> b
 foldSumr xs = foldr (+) 0 xs
 -- foldSumr [1,2,3,4,5] = 1+(2+(3+(4+(5+0)))) = 15
-
+-- 1:(2:(3:[])) = obere
 foldSuml :: (Foldable t, Num b) => t b -> b
 foldSuml xs = foldl (+) 0 xs
 -- foldSuml [1,2,3,4,5] = ((((0+1)+2)+3)+4)+5 = 15
@@ -39,8 +39,8 @@ foldDivl xs = foldl (/) 1 xs
 
 -- Fold kann mit beliebigen Funktionen verwendet werden, die man auch selbst definieren kann:
 
-countEvens :: (Foldable t) => t Int -> Int
-countEvens xs = foldr (\acc x -> if even x then acc + 1 else acc) 0 xs
+countEvens ::  [Int] -> Int
+countEvens xs = foldr (\x acc -> if even x then acc + 1 else acc) 0 xs
 -- countEvens [1,2,3,4,5,6] = 3
 
 

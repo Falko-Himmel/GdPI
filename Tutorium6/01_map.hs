@@ -8,9 +8,11 @@
 -- lamda funktionen sind anonyme funktionen die man "on the fly" erstellen kann
 --  dabei fangen lamda funktionen mit einem \ an, gefolgt von den parametern, dann einem -> und dem ausdruck der ausgeführt werden soll
 -- beispiel einer lamda funktion die eine zahl um 1 erhöht:
+addOne' :: Int -> Int
+addOne' x = x + 1
+
 addOne :: Int -> Int
 addOne x = (\x -> x + 1) x
-
 
 
 -- Bei maps geht es darum eine Liste an Elementen zu nehmen und auf jedes Element eine Funktion anzuwenden um eine neue Liste zu erzeugen.
@@ -20,6 +22,8 @@ addOne x = (\x -> x + 1) x
 squareList :: Num a => [a] -> [a]
 squareList []     = [] -- Basisfall: leere Liste bleibt leer
 squareList (x:xs) = (x^2) : squareList xs -- rekursiver Fall: Quadrat von x + quadratListe von xs
+
+
 
 -- beispielhafte Ausführung:
 test1 :: [Int]

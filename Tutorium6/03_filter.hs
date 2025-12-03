@@ -10,6 +10,7 @@
 -- beispiel: Wir wollen aus einer Liste von Zahlen nur die geraden Zahlen herausfiltern
 filterEvens :: [Int] -> [Int]
 filterEvens xs = filter (\x -> even x) xs
+-- [1,2,3,4,5,6] -> [2,4,6]
 
 -- beispiel: Wir wollen aus einer Liste von Zahlen nur die Zahlen größer als 5 herausfiltern
 filterGreaterThanFive :: [Int] -> [Int]
