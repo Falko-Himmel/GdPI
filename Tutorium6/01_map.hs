@@ -38,6 +38,7 @@ test1 = squareList [1, 2, 3] -- hier erhalten wir [1, 4, 9]
 -- das gleiche mit einem map sieht dann so aus:
 squareListMap :: Num a => [a] -> [a]
 squareListMap xs = map (\x -> x^2) xs
+-- squareListMap xs = foldr (\x acc -> x^2 : acc) [] xs
 
 -- hier verwenden wir eine Lamda-Funktion (\x -> x^2), die jedes Element x der Liste nimmt und es quadriert.
 -- Dabei "gibt" das map bei jedem Element der Liste das Element der Lambda-Funktion
