@@ -26,3 +26,9 @@ __pycache__/
 *.idb
 *.lib
 *.log
+
+# Haskell binaries
+*.hi
+*.o
+*.dyn_o
+*.dyn_hi
