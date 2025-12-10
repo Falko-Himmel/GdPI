@@ -42,7 +42,16 @@ exampleTree =
             (Node 7 Nil Nil)
         )
     )
+  ( Node
+    10
     Nil
+    ( Node
+      14
+      (Node 13 Nil Nil)
+      Nil
+    )
+  )
+    
 
 -- Jetzt können wir einen Baum auch durchlaufen und verschiedene funktionen darauf anwenden.
 -- Zum beispiel eine Funktion, die alle Werte im Baum aufsummiert.
