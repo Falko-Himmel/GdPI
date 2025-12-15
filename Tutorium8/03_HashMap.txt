@@ -1,0 +1,87 @@
+Hash-Maps — Erklärung und Grundbegriffe
+======================================
+
+Hashing (dt. „zerhacken“) bedeutet, dass Daten über einen vorgegebenen
+Speicherbereich gestreut werden.
+
+• Beim Hashing wird aus einem Daten-Teil (Key/Schlüssel) mittels einer
+	Hash-Funktion ein Wert bestimmt, der jedes Datum (Value) identifiziert.
+• Hashing ist eine Methode, um Daten schnell speichern und wiederfinden zu können. Laufzeitkomplexität im average case O(1)
+
+
+Definition D34: Hash-Map
+------------------------
+Eine Hash-Map ist eine Datenstruktur, die Schlüssel (Keys) auf Daten (Values)
+abbildet. Die Position der Values in der Hash-Tabelle wird über das Hashing der
+Schlüssel bestimmt.
+
+
+Definition D35: Hash-Funktion
+-----------------------------
+Gegeben sei:
+• Die Key-Menge K von Schlüsseln (als Teilmenge einer potentiell unendlichen
+	Menge von Schlüsseln).
+• Die Hash-Tabelle A, eine Datenstruktur der Länge m > |K|, in die die Daten
+	abgelegt werden.
+
+Aufgabe: Definition einer möglichst einfach/schnell zu berechnenden Hash-Funktion
+	h : K → [0..m−1]
+die für einen gegebenen Key k ∈ K einen Index i ∈ [0..m−1] bestimmt. Die Elemente k
+sollen möglichst gleichmäßig auf die Indexmenge gestreut werden (gleichmäßige
+Verteilung, geringe Clusterbildung).
+
+
+Hash-Funktion II: Kongruenzmethode (Diese wird meistens in der Kausur verwendet)
+----------------------------------
+Es wird m > |K| als Primzahl gewählt und die Hash-Funktion h definiert als:
+	h(k) = f(k) MODULO m
+wobei f eine Funktion ist, die Keys k ∈ K auf ganze Zahlen abbildet (z. B. durch
+Codierung/Hashing des Schlüssels). Die Wahl einer Primzahl für m reduziert Muster
+und verbessert die Verteilung.
+
+
+Definition D36: Lastfaktor (Load Factor)
+----------------------------------------
+Verhältnis zwischen den verfügbaren Speicherplätzen und den tatsächlich belegten
+Einträgen in der Tabelle:
+	α = n / m
+wobei n die Anzahl der gespeicherten Schlüssel/Einträge und m die Tabellengröße ist.
+Ein moderater Lastfaktor (z. B. α ≤ 0,75) hält Kollisionen gering und Operationen
+im Mittel effizient. Viele Implementierungen vergrößern („rehashen“) die Tabelle,
+wenn α einen Schwellwert überschreitet.
+
+
+Definition D37: Kollision
+-------------------------
+Eine Kollision liegt vor, wenn
+	h(k) = h(k′) und k ≠ k′,
+d. h. unterschiedliche Schlüssel auf den selben Tabellenindex abgebildet werden.
+
+
+Strategien zur Kollisionsbehandlung (Auswahl)
+---------------------------------------------
+• Separate Chaining: Pro Tabellenfeld eine Liste/Bucket von (Key, Value)-Paaren
+	führen. Einfügen/Suche nur im jeweiligen Bucket.
+• Überschreiben: Alte Werte durch neue Werte ersetzen (nur sinnvoll, wenn pro Key
+	nur ein Value gelten soll und Gleichheit/Identität sicher ist).
+• Offene Adressierung: Kollidierende Einträge auf andere Indizes umleiten, z. B.
+	– Lineares/Quadratisches Sondieren (Probing)
+	– Double Hashing (zweite Hash-Funktion bestimmt Sprungweite)
+Die konkrete Behandlung ist implementierungsspezifisch und beeinflusst Laufzeiten
+und Speicherbedarf.
+
+
+Laufzeit (typisch)
+------------------
+• Durchschnittlich: Suchen, Einfügen, Löschen in O(1) bei guter Hash-Funktion und
+	moderatem Lastfaktor.
+• Schlechtester Fall: O(n), wenn viele Kollisionen/Cluster entstehen.
+
+
+-- Beispielaufgaben: 
+Altklausur 2023_1, Aufgabe 5
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf?forcedownload=1
+
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_solution.pdf?forcedownload=1
