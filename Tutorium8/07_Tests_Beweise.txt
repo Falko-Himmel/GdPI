@@ -1,0 +1,70 @@
+Angenommen wir haben jetzt einen Algorithmus geschrieben. Dieser sieht logisch aus und macht grundsätzlich auch das was wir wollen. 
+Nur das Problem: haben wir einen komplexen Algorithmus, der viele Schritte und Verzweigungen enthält, dann ist es nicht immer einfach nachzuvollziehen, dass dieser Algorithmus auch wirklich das tut was er soll.
+
+
+Dafür gitb es die Möglichkeit sogenannte automatisierte Tests zu schreiben.
+Diese (blackbox- )Tests prüfen den Algorithmus auf die Korrektheit deren Spezifikation, d.h. hat einige Testcases unterschiedlicher Eingabeäquivalenzklassen und prüft ob die Ausgabe des Algorithmus der erwarteten Ausgabe entspricht.
+Das haben wir mit QuickCheck in Haskell. Dies wurde in einer Übung schon einmal vorgestellt.
+
+
+Altklausurenaufgabe: 2024_1 / Aufgabe 8b (Für den QuickCheck brauchen wir der Rückgabewert Bool)
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_solution.pdf
+
+
+Außerdem gibt es noch Whitebox-Tests, die den Algorithmus auf Korrektheit prüfen, indem sie die internen Schritte des Algorithmus überprüfen.
+Hier schauen wir an, ob alle Anweisungen und Verzweigungen des Algorithmus mindestens einmal ausgeführt wurden... .
+Whitebox-Tests kommen aber i.d.R. eher weniger in der Klausur vor.
+
+
+
+
+
+
+
+Auf der anderen Seite gibt es noch Beweise, die die Korrektheit eines Algorithmus mathematisch nachweisen.
+Hier verwenden wir Induktion, da in Haskell die Algorithmen allesmat rekursiv definiert sind.
+
+Dabei fangen wir mit der Induktionshypothese an, die hier unser Bassisfall darstellt. (leere Liste, ...)
+Dannach geht es weiter mit einem belibigen aber festen Wert, wobei wir dann unsere Induktionshypothese verwenden um den Induktionsschritt zu zeigen.
+
+Beispiel:
+reverse :: [a] -> [a]
+reverse [] = []
+reverse (x:xs) = reverse xs ++ [x]
+
+Basisfall: leere Liste soll umgedreht auch die leere Liste sein.
+reverse [] = []  (wahr)
+
+Induktionsannahme: Angenommen für eine beliebige aber feste Liste xs gilt:
+reverse xs = rev xs  (wahr)
+
+Induktionsschritt: Zeige dass die Aussage auch für (x:xs) gilt.
+reverse (x:xs) = reverse xs ++ [x]  (Definition von reverse)
+= rev xs ++ [x]  (nach Induktionsannahme)
+= (x:xs)  umgedreht (Definition von rev)
+
+q.e.d.
+
+Altklausurenaufgabe: 2024_2 / Aufgabe 8
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_2_exam.pdf
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_2_solution.pdf
+
+
+
+
+
+
+weitere von 2024_1 / Aufgabe 8
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf
+
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_solution.pdf
+
+
+
