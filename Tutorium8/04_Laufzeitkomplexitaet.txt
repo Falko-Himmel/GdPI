@@ -1,0 +1,77 @@
+Wenn wir Algorithmen schreiben ist es nicht nur wichtig, dass diese nicht nur das richtige Ergebnis liefern, sondern auch schnell bzw. performant sind.
+Um dabei diese performance messen zu können, können wir dies entweder theoretisch oder praktisch angehen.
+Dabei haben beide Messmethoden jeweil Vor- und Nachteile.
+
+Bei praktschen Messungen messen wir wirklich die tatsächliche Zeit, die ein Algorithmus für die Abarbeitung einer Eingabe benötigt. 
+Dann können wir mit diesen Messungen (ggf. öfters messen und mitteln) unseren Algorithmus vergleichen.
+Die Eingaben nennt man dabei Benchmarks, die eine Sammlung an Eingaben darstellt.
+
++ einfach in der umsetzung
+- abhängig von Umgebung
+- nicht immer gut vergleichbar
+
+
+
+Die theoretische Laufzeitanalyse (i.d.R. das relevante für die Klausur) bestimmen wir die Komplexität, also das Laufzeitverhalten im asymptotischen Verlauf der Eingabegröße.
+Hier wird sich auf Zeitaufwändige Operationen konzentriert. Z.B. Addition wird hier als konstant betrachtet und fließt "nicht so wesentlich ein".
+Dabei wird angenommen, dass: 
+
+• Speicherreservierungen benötigen keine wesentliche Zeit
+• Programmflusssteuerung benötigt keine wesentliche Zeit
+• Elementarschritte werden gezählt: Zuweisungen (Z), Vergleiche (V), Additionen & Subtraktion (A/S) und Multiplikationen (M)
+• Elementaroperationen benötigen gleich viel Zeit (konstant)
+
+Wie genau können wir jetzt die Komplexität tatsächlich bestimmen von einem Algorithmus?
+Wir haben die Zeitkomplexität T(n), die angibt wie viele Elementaroperationen es benötigt ein Problem mit Eingabegröße n zu lösen.
+
+Bsp.:
+fak :: Int -> Int
+fak 0 = 0 -- Konstante Zeit O(1)
+fak n = n * fak (n-1) -- n * ist Konstante Zeit wegen Elementaroperationen + T(n-1)
+
+Daraus erhalten wir die Rekurrenzgleichung mit T(n) = T* + T(n-1)
+
+Da wir quasi nur die Annahmen gemacht haben, dass Elementarschritte und co konstante oder keine wesentliche Zeit brauchen, ist die tatsächliche größe dieser Zeiteinheiten für die Zeitkomplexität unbekannt.
+Dies ist dann Hardwareabhängig, je nachdem, wo man diesen Algorithmus ausführt ... .
+
+
+
+
+
+=> jetzt die Erkenntnis: konstante Faktoren sind relativ "egal" und vernachlässigbar für große Eingabedaten.
+https://www.desmos.com/calculator/obdm27ccog
+
+hier kann man sehen, dass im reingezoomten zustand noch ein erkennbarer unterschied zwischen dem Graph mit und ohne Faktor existiert, aber sobald man ein bisschen herauszoomed, werden die unterschiede zwischen der Laufzeit mit und ohne Faktor vernachlässigbar. (besonders wenn man vergleicht mit Funktionen anderer Komplexitätsklassen)
+
+=> auch kommt man zu der Erkenntnis, dass wenn man auf eine Funktion eine kleine "drauf addiert", diese im asymptotischen Verlauf keinen wesentlichen Unterschied macht.
+https://www.desmos.com/calculator/ok8ycuugjl
+
+
+
+
+aus diesen beiden Erkenntnissen können wir auf folgende Rechenregeln schließen:
+
+
+• 𝑓(𝑛) = 𝑘 ∈ 𝑂(1) für eine Konstante 𝑘
+• 𝑓(𝑛) ∈ 𝑂(𝑓(𝑛))
+• 𝑂(𝑐 ∗ 𝑓(𝑛)) = 𝑂(𝑓(𝑛)) für eine Konstante 𝑐 > 0
+• 𝑂(𝑓(𝑛) + 𝑔(𝑛)) = 𝑂(𝑚𝑎𝑥(𝑓(𝑛), 𝑔(𝑛)))
+• 𝑂(𝑓(𝑛)) ∗ 𝑂(𝑔(𝑛)) = 𝑂(𝑓(𝑛) ∗ 𝑔(𝑛))
+
+
+Bei der O-Notation haben wir dabei die Komplexitätsklassen:
+konstant: 𝑂(1)
+logarithmisch: 𝑂(𝑙𝑜𝑔(𝑛))
+linear: 𝑂(𝑛)
+log linear: 𝑂(𝑙𝑜𝑔(𝑛) ∗ 𝑛)
+quadratisch: 𝑂(𝑛^2)
+kubisch: 𝑂(𝑛^3)
+polynomiell: 𝑂(𝑛^𝑘) mit Konstante 𝑘 > 1
+exponentiell: 𝑂(2^𝑛)
+
+=> altklausurenaufgabe 2024_1 / Aufgabe 6
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_solution.pdf
+

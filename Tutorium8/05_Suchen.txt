@@ -1,0 +1,52 @@
+Jetzt wissen wir ja wie man Algorithmen auf deren Laufzeit untersucht und was die O Notation aussagt.
+Dies wollen wir jetzt verwenden, um Algorithmen auf deren Effizienz zu vergleichen und als Motivation haben, warum nicht immer die "leichte" Implementierung die beste ist.
+
+Angenommen, wir haben einen sortierte Liste und wollen herausfinden, ob ein Element in dieser enthalten ist.
+Bsp.: x = [1, 4, 6, 7, 9, 10, 213, 534, 865, 999]
+      ist das Element 7 und das Element 898 enthalten?
+
+Jetzt könnten wir naiv an dieses Problem rangehen und einfach jedes Element der Liste mit dem gesuchten Element vergleichen.
+Ist die 1 gleich 7? Nein.
+Ist die 4 gleich 7? Nein.
+Ist die 6 gleich 7? Nein.
+Ist die 7 gleich 7? Ja. Gefunden.
+
+in haskell würde das so aussehen:
+contains :: Eq a => [a] -> a -> Bool
+contains [] _ = False
+contains (y:ys) x
+    | x == y    = True  
+    | otherwise = contains ys x
+
+Die Laufzeitkomplexität dieses Algorithmus ist O(n), da im worst case jedes Element der Liste mit dem gesuchten Element verglichen werden muss.
+Dies könnten wir auch noch formal mit einer Rekurrenzgleichung ausdrücken:
+T(n) = T(n-1) + O(1)  für n > 0
+T(0) = O(1) für n = 0
+und dann mit dem Mastertheorem lösen.
+
+=> lineare Suche
+
+Das geht aber noch schneller, da wir ja wissen, dass die Liste sortiert ist.
+Das machen wir mit einer binären Suche:
+
+containsBinary :: Ord a => [a] -> a -> Bool
+containsBinary xs x = go xs
+  where
+    go [] = False
+    go ys =
+      let mid = length ys `div` 2
+          midVal = ys !! mid -- !! ist eingebauter Operator zum Zugriff auf das i-te Element einer Liste
+      in case compare x midVal of
+           LT -> go (take mid ys)
+           GT -> go (drop (mid + 1) ys)
+           EQ -> True
+
+Bei einer binären Suche halbieren wir bei jedem Vergleich die Liste, in der wir suchen müssen.
+Dadurch ergibt sich eine Laufzeitkomplexität von O(log n), da wir im worst case log2(n) Vergleiche benötigen, um das Element zu finden oder festzustellen, dass es nicht in der Liste ist.
+Diese logarithmische Laufzeit können wir uns vorstellen, indem wir uns anschauen, dass die Liste in jedem Schritt halbiert wird. Es entsteht also wie eine Art Baumstruktur, bei der die Höhe des Baumes log2(n) ist.
+
+Suche nach der 4:
+[1, 4, 6, 7, 9, 10, 213, 534, 865, 999]
+                  
+
+

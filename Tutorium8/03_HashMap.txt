@@ -80,8 +80,8 @@ Laufzeit (typisch)
 
 -- Beispielaufgaben: 
 Altklausur 2023_1, Aufgabe 5
-https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf?forcedownload=1
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf
 
 
 Lösung: 
-https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_solution.pdf?forcedownload=1
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_solution.pdf

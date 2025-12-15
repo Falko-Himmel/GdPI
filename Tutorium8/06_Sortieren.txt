@@ -1,0 +1,146 @@
+Aufgabenstellung: wir haben eine Liste an Elementen und wollen diese sortieren.
+Bsp.: [5, 2, 9, 1, 5, 6] → [1, 2, 5, 5, 6, 9]
+
+Hier gibt es wieder unteschiedliche Algorithmen mit unterschiedlichen Laufzeiten.
+
+Beispiel: Selection Sort
+Gegeben eine zu sortierende Liste 𝐹 und eine zu Beginn leere sortierte Liste 𝑆.
+1. Ist 𝐹 leer, gib 𝑆 zurück
+2. Entferne das kleinste Elemente 𝑒 aus 𝐹
+3. Füge 𝑒 in 𝑆 ein
+4. Beginne wieder mit 1.
+
+Beispiel: 𝐹 = (21, 5, 3, 17)
+𝑆 = () 𝐹 = (21, 5, 3, 17)
+𝑆 = (3) 𝐹 = (21, 5, 17)
+𝑆 = (3, 5) 𝐹 = (21, 17)
+𝑆 = (3, 5, 17) 𝐹 = (21)
+𝑆 = (3, 5, 17, 21) 𝐹 = ()
+
+Altklausurenaufgabe: 2024_2 / Aufgabe 7 (ACHTUNG: absteigende Reihenfolge)
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_2_exam.pdf
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_2_solution.pdf
+
+
+Wenn wir uns hierfür die Laufzeit überlegen wollen, dann haben wir in Schritt 2 den Aufwand n (Anzahl der Elemente in F) um das kleinste Element zu finden.
+Dieser Schritt wird n mal wiederholt (da wir n Elemente sortieren müssen). (hier wird zwar die Liste immer kleiner, aber für die asymptotische Laufzeitbetrachtung vernachlässigen wir das)
+
+
+========================================================
+
+Bubble Sort:
+Gegeben eine zu sortierende Liste 𝐹.
+1. Laufe die 𝐹 von vorne nach hinten ab
+2. Vergleiche aktuelles Element 𝑒 mit Nachfolger 𝑓
+3. Sind 𝑒 und 𝑓 in falscher Reihenfolge, tausche die beiden
+4. Betrachte nun nächstes Element (entweder 𝑒 oder 𝑓 je nachdem ob getauscht
+wurde oder nicht)
+5. Ist das Ende der zu betrachtenden Folge erreicht prüfe ob im aktuellen
+Durchlauf mindestens ein Tausch stattgefunden hat, wenn ja beginne bei 1.,
+wenn nein beende den Algorithmus.
+
+Beispiel: 𝐹 = (5, 2, 9, 1, 5, 6)
+Durchlauf 1: (2, 5, 1, 5, 6, 9)
+Durchlauf 2: (2, 1, 5, 5, 6, 9)
+Durchlauf 3: (1, 2, 5, 5, 6, 9)     
+
+Die Laufzeit von Bubble Sort im schlechtesten Fall ist O(n^2), da in jedem der n Durchläufe bis zu n-1 Vergleiche und mögliche Vertauschungen durchgeführt werden müssen.
+
+
+
+
+========================================================
+
+
+Insertion Sort
+Gegeben eine zu sortierende Liste 𝐹 und eine zu Beginn leere sortierte Folge 𝑆.
+1. Ist 𝐹 leer, gib 𝑆 zurück
+2. Entferne das erste Elemente 𝑒 aus 𝐹
+3. Füge 𝑒 in 𝑆 an die korrekte Stelle ein
+4. Beginne wieder mit 1.
+
+
+Beispiel: 𝐹 = (21, 5, 3, 17)
+𝑆 = () 𝐹 = (21, 5, 3, 17)
+𝑆 = (21) 𝐹 = (5, 3, 17)
+𝑆 = (5, 21) 𝐹 = (3, 17)
+𝑆 = (3, 5, 21) 𝐹 = (17)
+𝑆 = (3, 5, 17, 21) 𝐹 = ()
+
+
+Die Laufzeit von Insertion Sort im schlechtesten Fall ist O(n^2), da für jedes der n Elemente in F im schlimmsten Fall bis zu n Vergleiche in S durchgeführt werden müssen, um die korrekte Einfügestelle zu finden.
+Altklausurenaufgabe: 2024_1 / Aufgabe 7
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf
+
+Lösung:
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_solution.pdf
+
+
+
+
+
+
+
+
+bislang haben wir für alle Sortieralgorithmen eine Laufzeit von O(n^2). das geht aber schneller!
+
+Merge Sort
+Gegeben eine zu sortierende Liste 𝐹.
+1. Enthält 𝐹 ein oder null Elemente, gib 𝐹 zurück
+2. Teile 𝐹 in 𝐹1 und 𝐹2 mit möglichst gleicher Länge auf
+3. Führe MergeSort auf 𝐹1 und 𝐹2 aus
+4. Füge 𝐹1 und 𝐹2 geordnet in 𝐹 zusammen, da beide sortiert sind müssen immer
+nur die ersten beiden Elemente verglichen werden und das jeweils kleinere zuerst
+angefügt werden
+5. Gib 𝐹 zurück
+
+𝐹 = (21, 5, 3, 17)
+
+
+           (21, 5, 3, 17)       |
+           /           \   
+        (21, 5)     (3, 17)     | aufspalten
+        /    \       /    \
+       (21)  (5)   (3)  (17)    |
+         \   /       \     /
+         (5, 21)     (3, 17)    | zusammenführen/ merge (hier ist die eigentliche Arbeit)
+            \           /
+            (3, 5, 17, 21)      |
+
+Die Laufzeit von Merge Sort im schlechtesten Fall ist O(n log n), da die Liste in jedem Schritt halbiert wird (log n Schritte) und in jedem Schritt alle n Elemente verglichen und zusammengeführt werden müssen.
+
+Altklausurenaufgabe: 2023_2 / Aufgabe 6
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_2_exam.pdf
+
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_2_solution.pdf
+
+
+
+
+
+Quick Sort
+Gegeben eine zu sortierende Liste 𝐹.
+1. Enthält 𝐹 ein oder null Elemente, gib 𝐹 zurück
+2. Wähle ein Pivotelement
+3. Teile 𝐹 in 𝐹1 und 𝐹2 auf wobei in 𝐹1 nur Elemente kleiner als das Pivot Element
+enthalten sind und in 𝐹2 nur Elemente größer gleich
+4. Führe Quicksort auf 𝐹1 und 𝐹2 aus
+5. Füge alle Elemente aus 𝐹1 an 𝐹 an
+6. Füge das Pivotelement an 𝐹 an
+7. Füge alle Elemente aus 𝐹2 an 𝐹 an
+8. Gib 𝐹 zurück
+
+
+=> Altkausurenaufgabe 2023_1 / Aufgabe 6
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf
+
+Lösung: 
+https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_solution.pdf
+
+
+Die Laufzeit von Quick Sort im schlechtesten Fall ist O(n^2), wenn das Pivotelement immer das größte oder kleinste Element ist, wodurch die Liste nicht effektiv geteilt wird.
+Im Durchschnitt beträgt die Laufzeit jedoch O(n log n), da die Liste in der Regel gut geteilt wird und die gleichen Überlegungen wie bei Merge Sort gelten.
