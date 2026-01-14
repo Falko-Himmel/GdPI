@@ -52,7 +52,9 @@ bsp = Node 1 (Node 2 Empty (Node 3 Empty Empty)) (
 -- • countInnerNodes bsp ≡ 2
 
 countInnerNodes :: BinTree a -> Int
-countInnerNodes = undefined
+countInnerNodes Empty = 0
+countInnerNodes (Node _ Empty Empty) = 0
+countInnerNodes (Node _ l r) = 1 + countInnerNodes l + countInnerNodes r
 
 
 
@@ -88,7 +90,9 @@ countInnerNodes' (Node _ l r) = 1 + countInnerNodes' l + countInnerNodes' r -- s
 
 
 listInnerNodes :: BinTree a -> [a]
-listInnerNodes = undefined
+listInnerNodes Empty = [] -- Basisfall, ein leerer Baum hat keine inneren Knoten
+listInnerNodes (Node _ Empty Empty) = [] -- ist an einem Knoten keine Kind, so ist dies ein Blatt und damit kein innerer Knoten => 0, da nur innere Knoten zählen
+listInnerNodes (Node a l r) = a : ( listInnerNodes l ++ listInnerNodes r)
 
 
 
@@ -122,7 +126,7 @@ listInnerNodes' (Node a l r) = a : (listInnerNodes' l ++ listInnerNodes' r) -- s
 
 
 productTree :: Num a => BinTree a -> a
-productTree = undefined
+productTree = foldTree (\a l r -> a*l*r) 1
 
 
 
