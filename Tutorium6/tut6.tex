@@ -12,6 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning, trees}
 
 % Modern Font
 \IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
@@ -178,6 +180,57 @@ filterGreaterThanFive xs = filter (\x -> x > 5) xs
     \end{tcolorbox}
 \end{frame}
 
+\begin{frame}[fragile]{Visualisierung: Map \& Filter}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{\texttt{map (*2) [1, 2, 3]}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0.6cm, every node/.style={minimum size=0.6cm, font=\small}]
+                \node[draw=Primary, fill=CodeBg] (i1) {1};
+                \node[draw=Primary, fill=CodeBg, right=of i1] (i2) {2};
+                \node[draw=Primary, fill=CodeBg, right=of i2] (i3) {3};
+                
+                \node[below=0.4cm of i1, font=\footnotesize\color{Secondary}] (f1) {* 2};
+                \node[below=0.4cm of i2, font=\footnotesize\color{Secondary}] (f2) {* 2};
+                \node[below=0.4cm of i3, font=\footnotesize\color{Secondary}] (f3) {* 2};
+                
+                \node[draw=Success, fill=Success!20, below=0.4cm of f1] (o1) {2};
+                \node[draw=Success, fill=Success!20, right=of o1] (o2) {4};
+                \node[draw=Success, fill=Success!20, right=of o2] (o3) {6};
+                
+                \draw[-{Latex}, Accent] (i1) -- (f1); \draw[-{Latex}, Accent] (f1) -- (o1);
+                \draw[-{Latex}, Accent] (i2) -- (f2); \draw[-{Latex}, Accent] (f2) -- (o2);
+                \draw[-{Latex}, Accent] (i3) -- (f3); \draw[-{Latex}, Accent] (f3) -- (o3);
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{\texttt{filter (>1) [1, 2, 3]}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0.6cm, every node/.style={minimum size=0.6cm, font=\small}]
+                \node[draw=Primary, fill=CodeBg] (i1) {1};
+                \node[draw=Primary, fill=CodeBg, right=of i1] (i2) {2};
+                \node[draw=Primary, fill=CodeBg, right=of i2] (i3) {3};
+                
+                \node[below=0.4cm of i1, font=\footnotesize\color{Accent}] (f1) {False};
+                \node[below=0.4cm of i2, font=\footnotesize\color{Success}] (f2) {True};
+                \node[below=0.4cm of i3, font=\footnotesize\color{Success}] (f3) {True};
+                
+                \node[below=0.4cm of f1] (o1) {};
+                \node[draw=Success, fill=Success!20, below=0.4cm of f2] (o2) {2};
+                \node[draw=Success, fill=Success!20, right=of o2] (o3) {3};
+                
+                \draw[-{Latex}, Accent, dashed] (i1) -- (f1);
+                \draw[-{Latex}, Accent] (i2) -- (f2); \draw[-{Latex}, Accent] (f2) -- (o2);
+                \draw[-{Latex}, Accent] (i3) -- (f3); \draw[-{Latex}, Accent] (f3) -- (o3);
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \section{Fold}
 
 \begin{frame}[fragile]{\texttt{foldr} und \texttt{foldl}}
@@ -196,6 +249,47 @@ foldDivl xs = foldl (/) 1 xs
 -- [2,4,8] => ((1 / 2) / 4) / 8 = 0.015625 (1/64)
 \end{lstlisting}
     \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Visualisierung: Foldl vs Foldr}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{\texttt{foldl (+) 0 [1, 2, 3]}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[level distance=0.8cm, sibling distance=1cm, every node/.style={circle, draw=Primary, fill=BgColor, minimum size=0.5cm, font=\footnotesize}]
+                \node {+}
+                    child {node {+}
+                        child {node {+}
+                            child {node[fill=CodeBg] {0}}
+                            child {node[fill=Success!20] {1}}
+                        }
+                        child {node[fill=Success!20] {2}}
+                    }
+                    child {node[fill=Success!20] {3}};
+            \end{tikzpicture}
+            \end{center}
+            \small Linksassoziativ (Klammerung von links).
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{\texttt{foldr (+) 0 [1, 2, 3]}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[level distance=0.8cm, sibling distance=1cm, every node/.style={circle, draw=Primary, fill=BgColor, minimum size=0.5cm, font=\footnotesize}]
+                \node {+}
+                    child {node[fill=Success!20] {1}}
+                    child {node {+}
+                        child {node[fill=Success!20] {2}}
+                        child {node {+}
+                            child {node[fill=Success!20] {3}}
+                            child {node[fill=CodeBg] {0}}
+                        }
+                    };
+            \end{tikzpicture}
+            \end{center}
+            \small Rechtsassoziativ (Klammerung von rechts).
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % ============================================

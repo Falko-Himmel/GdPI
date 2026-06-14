@@ -12,6 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning}
 
 % Modern Font
 \IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
@@ -148,6 +150,59 @@ head' (x:xs) = x
 \end{lstlisting}
     \end{tcolorbox}
     \small \textbf{Zusatz:} Strings sind einfach Listen von Characters: \texttt{\char`\"Hallo\char`\" == ['H', 'a', 'l', 'l', 'o']}.
+\end{frame}
+
+\begin{frame}[fragile]{Visualisierung der Listenstruktur}
+    Eine Liste besteht aus aneinandergeketteten Elementen (Nodes).
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Die Liste \texttt{[1, 2, 3]}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0cm, every node/.style={draw=Primary, fill=BgColor, minimum height=0.6cm, font=\small}]
+                % First node
+                \node[minimum width=0.6cm, fill=CodeBg] (val1) {1};
+                \node[minimum width=0.6cm, right=of val1] (ptr1) {$\bullet$};
+                
+                % Second node
+                \node[minimum width=0.6cm, right=0.5cm of ptr1, fill=CodeBg] (val2) {2};
+                \node[minimum width=0.6cm, right=of val2] (ptr2) {$\bullet$};
+                
+                % Third node
+                \node[minimum width=0.6cm, right=0.5cm of ptr2, fill=CodeBg] (val3) {3};
+                \node[minimum width=0.6cm, right=of val3] (ptr3) {$\bullet$};
+                
+                % End
+                \node[draw=none, fill=none, right=0.5cm of ptr3] (end) {\texttt{[]}};
+                
+                \draw[-{Latex}, thick, Accent] (ptr1.center) -- (val2.west);
+                \draw[-{Latex}, thick, Accent] (ptr2.center) -- (val3.west);
+                \draw[-{Latex}, thick, Accent] (ptr3.center) -- (end.west);
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Pattern Matching auf \texttt{(x:xs)}}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0cm, every node/.style={draw=Primary, fill=BgColor, minimum height=0.6cm, font=\small}]
+                % First node
+                \node[minimum width=0.6cm, fill=CodeBg] (val1) {1};
+                \node[minimum width=0.6cm, right=of val1] (ptr1) {$\bullet$};
+                
+                % XS Box
+                \node[draw=Secondary, fill=BgColor!90!Secondary, right=0.6cm of ptr1, minimum width=2.0cm, minimum height=0.8cm, dashed] (xs) {\texttt{[2, 3]}};
+                
+                \draw[-{Latex}, thick, Accent] (ptr1.center) -- (xs.west);
+                
+                % Labels
+                \node[draw=none, fill=none, above=0.2cm of val1, font=\bfseries\color{Success}] {\texttt{x}};
+                \node[draw=none, fill=none, above=0.2cm of xs, font=\bfseries\color{Success}] {\texttt{xs}};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Operationen auf Listen}

@@ -12,6 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning}
 
 % Modern Font (if installed, otherwise falls back smoothly)
 \IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
@@ -176,6 +178,51 @@ func fak(n):
 \end{lstlisting}
             \end{tcolorbox}
             \small \textbf{Aufruf:} \texttt{3 * fak(2) $\rightarrow$ 3 * 2 * fak(1) $\rightarrow$ ... $\rightarrow$ 6}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Visueller Vergleich: Call Stack}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Endrekursiv (Tail Call)} \\
+            \small Der Zustand wird im \texttt{acc} weitergegeben. Kein wachsender Stack!
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0.6cm, every node/.style={draw, rectangle, minimum width=2.5cm, fill=BgColor, rounded corners=2pt}]
+                \node (call1) {\texttt{fak(3, 1)}};
+                \node[below=of call1] (call2) {\texttt{fak(2, 3)}};
+                \node[below=of call2] (call3) {\texttt{fak(1, 6)}};
+                \node[below=of call3] (call4) {\texttt{fak(0, 6)}};
+                \node[draw=none, fill=none, below=of call4, font=\bfseries\color{Success}] (res) {\texttt{Return 6}};
+                
+                \draw[-{Latex}, Accent, thick] (call1) -- (call2);
+                \draw[-{Latex}, Accent, thick] (call2) -- (call3);
+                \draw[-{Latex}, Accent, thick] (call3) -- (call4);
+                \draw[-{Latex}, Success, thick] (call4) -- (res);
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Linear Rekursiv} \\
+            \small Jeder Aufruf wartet auf das Ergebnis. Der Stack wächst!
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[node distance=0.6cm, every node/.style={draw, rectangle, minimum width=2.5cm, fill=BgColor, rounded corners=2pt}]
+                \node (call1) {\texttt{3 * fak(2)}};
+                \node[below=of call1] (call2) {\texttt{2 * fak(1)}};
+                \node[below=of call2] (call3) {\texttt{1 * fak(0)}};
+                \node[below=of call3] (call4) {\texttt{Return 1}};
+                
+                \draw[-{Latex}, Accent, thick] (call1.south) -- (call2.north) node[midway, right, draw=none, fill=none, font=\tiny, color=gray] {wartet};
+                \draw[-{Latex}, Accent, thick] (call2.south) -- (call3.north);
+                \draw[-{Latex}, Accent, thick] (call3.south) -- (call4.north);
+                
+                \draw[dashed, -{Latex}, Success, thick] (call4.east) to[bend right=45] node[right, draw=none, fill=none, font=\tiny] {1 * 1} (call3.east);
+                \draw[dashed, -{Latex}, Success, thick] (call3.east) to[bend right=45] node[right, draw=none, fill=none, font=\tiny] {2 * 1} (call2.east);
+                \draw[dashed, -{Latex}, Success, thick] (call2.east) to[bend right=45] node[right, draw=none, fill=none, font=\tiny] {3 * 2} (call1.east);
+            \end{tikzpicture}
+            \end{center}
         \end{column}
     \end{columns}
 \end{frame}

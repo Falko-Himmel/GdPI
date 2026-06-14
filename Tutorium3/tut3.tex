@@ -12,6 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{trees, shapes, positioning}
 
 % Modern Font (if installed, otherwise falls back smoothly)
 \IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
@@ -204,6 +206,38 @@ printName :: Person -> String
 printName (Person name alter) = name
 \end{lstlisting}
     \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Rekursive Datentypen (Visualisiert)}
+    Ein ADT kann sich selbst referenzieren, um komplexe Strukturen aufzubauen, z.\,B. einen Baum.
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Beispiel: Baum (Tree)]
+\begin{lstlisting}
+data Tree = Leaf Integer 
+          | Node Tree Tree
+\end{lstlisting}
+            \end{tcolorbox}
+            \small
+            \textbf{Instanz:} \\
+            \texttt{Node (Leaf 1) \\ \quad(Node (Leaf 2) (Leaf 3))}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Speicherdarstellung (Abstrakt)}
+            \vspace{0.3cm}
+            \begin{center}
+            \begin{tikzpicture}[level distance=1.2cm, sibling distance=2cm, every node/.style={circle, draw=Primary, fill=BgColor, minimum size=0.6cm, font=\small}]
+                \node[rectangle, rounded corners=2pt] {Node}
+                    child {node[fill=CodeBg] {1}}
+                    child {node[rectangle, rounded corners=2pt] {Node}
+                        child {node[fill=CodeBg] {2}}
+                        child {node[fill=CodeBg] {3}}
+                    };
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Vordefinierte Typen: \texttt{Maybe} und \texttt{Either}}
