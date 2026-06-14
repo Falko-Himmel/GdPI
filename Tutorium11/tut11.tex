@@ -1,0 +1,250 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error},
+  keywordstyle=\color{Accent}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 11}}
+\subtitle{Suchalgorithmen}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% THEORIE
+% ============================================
+\section{Suchen in Listen}
+
+\begin{frame}[fragile]{Lineare Suche}
+    Die einfachste Methode: Wir überprüfen jedes Element der Liste nacheinander.
+    
+    \begin{tcolorbox}[modernbox, title=Lineare Suche in Haskell]
+\begin{lstlisting}
+contains :: Eq a => [a] -> a -> Bool
+contains [] _ = False
+contains (y:ys) x
+    | x == y    = True  
+    | otherwise = contains ys x
+\end{lstlisting}
+    \end{tcolorbox}
+    
+    \begin{itemize}
+        \item \textbf{Laufzeit:} $\mathcal{O}(n)$
+        \item Wir müssen im \textit{Worst Case} jedes Element genau einmal betrachten.
+        \item Rekurrenzgleichung: $T(n) = T(n-1) + \mathcal{O}(1)$
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Lineare Suche (Visuell)}
+    \begin{center}
+    \begin{tikzpicture}[node distance=1.2cm, every node/.style={draw, rectangle, minimum size=0.8cm, font=\large}]
+        \node (A) {1};
+        \node (B) [right of=A] {4};
+        \node (C) [right of=B] {6};
+        \node (D) [right of=C, fill=Success!30] {7};
+        \node (E) [right of=D] {9};
+        
+        \draw[->, thick, Accent] (A.south) -- +(0,-0.5) node[below, draw=none] {\tiny 1? Nein.};
+        \draw[->, thick, Accent] (B.south) -- +(0,-0.5) node[below, draw=none] {\tiny 2? Nein.};
+        \draw[->, thick, Success] (D.south) -- +(0,-0.5) node[below, draw=none] {\tiny Gefunden!};
+    \end{tikzpicture}
+    
+    \vspace{0.5cm}
+    \large Im \textbf{Worst Case} müssen wir die komplette Liste ablaufen.
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Binäre Suche}
+    Wenn die Liste \textbf{bereits sortiert} ist, können wir viel effizienter vorgehen: Wir halbieren den Suchraum bei jedem Schritt!
+    
+    \begin{tcolorbox}[modernbox, title=Binäre Suche in Haskell]
+\begin{lstlisting}
+containsBinary :: Ord a => [a] -> a -> Bool
+containsBinary xs x = go xs
+  where
+    go [] = False
+    go ys = let mid = length ys `div` 2
+                midVal = ys !! mid
+            in case compare x midVal of
+                 LT -> go (take mid ys)
+                 GT -> go (drop (mid + 1) ys)
+                 EQ -> True
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+
+\begin{frame}{Binäre Suche (Visuell)}
+    \begin{center}
+    Suche nach \textbf{7}:\\
+    \vspace{0.3cm}
+    \begin{tikzpicture}[every node/.style={draw, rectangle, minimum size=0.6cm, font=\small}]
+        % Initial
+        \node (A) at (0,0) {1}; \node (B) at (0.6,0) {4}; \node (C) at (1.2,0) {6}; \node (D) at (1.8,0) {7}; \node (E) at (2.4,0) {9};
+        \node (F) at (3.0,0) {10}; \node (G) at (3.6,0) {213}; \node (H) at (4.2,0) {534}; \node (I) at (4.8,0) {865}; \node (J) at (5.4,0) {999};
+        
+        \draw[->, thick] (2.7, -0.4) -- (2.7, -0.8);
+        
+        % Step 1: Halved
+        \node[fill=gray!30] (A2) at (0,-1.5) {1}; \node[fill=gray!30] (B2) at (0.6,-1.5) {4}; \node[fill=gray!30] (C2) at (1.2,-1.5) {6}; \node[fill=gray!30] (D2) at (1.8,-1.5) {7}; \node[fill=gray!30] (E2) at (2.4,-1.5) {9};
+        
+        \node[draw=none, fill=none] at (4.2, -1.5) {\footnotesize (Rechte Hälfte verworfen)};
+        
+        \draw[->, thick] (1.2, -1.9) -- (1.2, -2.3);
+        
+        % Step 2
+        \node[fill=gray!30] (C3) at (1.2,-3) {6}; \node[fill=Success!30] (D3) at (1.8,-3) {7}; \node[fill=gray!30] (E3) at (2.4,-3) {9};
+        
+    \end{tikzpicture}
+    
+    \vspace{0.5cm}
+    \large Bei jedem Schritt halbieren wir den Suchraum! $\rightarrow \mathcal{O}(\log n)$
+    \end{center}
+\end{frame}
+
+\begin{frame}{Effizienz der Binären Suche}
+    \begin{itemize}
+        \item \textbf{Laufzeit:} $\mathcal{O}(\log_2 n)$
+        \item Da die Liste in jedem Schritt halbiert wird, entspricht die Anzahl der Schritte der Höhe eines Binärbaums.
+        \item \textbf{Beispiel:} Bei einer Million Einträge benötigen wir \textbf{maximal 20 Vergleiche}!
+    \end{itemize}
+    
+    \vspace{0.5cm}
+    \begin{center}
+        \texttt{[1, 4, 6, 7, 9, 10, 213, 534, 865, 999]}
+    \end{center}
+    Wir vergleichen in der Mitte und werfen jeweils die unpassende Hälfte weg.
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{05\_Suchen.txt} \\
+        \vspace{0.3cm}
+        \normalsize Gemeinsame Analyse und Programmierung der Suchalgorithmen.
+    \end{center}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,270 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Modern Font (if installed, otherwise falls back smoothly)
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{itemize subitem}{fg=Secondary}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    },
+    successbox/.style={
+        modernbox,
+        colbacktitle=Success
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, instance},
+  keywordstyle=\color{Accent}\bfseries,
+  ndkeywords={print, main, return, Just, Nothing, Left, Right},
+  ndkeywordstyle=\color{Secondary}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE SETTINGS
+% ============================================
+\title{\textbf{Tutorium 3}}
+\subtitle{Typklassen \& Algebraische Datentypen}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% THEORIE: TYPKLASSEN
+% ============================================
+\section{Typklassen}
+
+\begin{frame}[fragile]{Warum Typklassen?}
+    Ohne Typklassen müssen wir für jeden primitiven Datentyp (z.\,B. \texttt{Integer}, \texttt{Double}) eine eigene Funktion schreiben, auch wenn die Logik identisch ist.
+    
+    \begin{tcolorbox}[alertbox, title=Das Problem]
+\begin{lstlisting}
+greaterFive :: Integer -> Bool
+greaterFive x = x > 5
+
+greaterFive' :: Double -> Bool
+greaterFive' x = x > 5
+\end{lstlisting}
+    \end{tcolorbox}
+    \textbf{Lösung:} Wir verallgemeinern die Funktion mit \textbf{Typklassen} (vgl. Interfaces in Java).
+\end{frame}
+
+\begin{frame}[fragile]{Verwendung von Typklassen (\texttt{Num}, \texttt{Eq}, \texttt{Ord})}
+    \begin{tcolorbox}[successbox, title=Die Lösung mit Typklassen]
+\begin{lstlisting}
+-- Erlaubt alle numerischen Typen, die ordnerbar sind
+greaterFive'' :: (Ord a, Num a) => a -> Bool
+greaterFive'' x = x > 5
+
+numberToString :: (Eq a, Num a) => a -> String
+numberToString 0 = "null"
+numberToString _ = "andere Zahl"
+\end{lstlisting}
+    \end{tcolorbox}
+    
+    \begin{itemize}
+        \item \texttt{Num}: Numerische Operationen (z.\,B. \texttt{Integer, Double, Float}).
+        \item \texttt{Eq}: Erlaubt Überprüfung auf Gleichheit (\texttt{==}).
+        \item \texttt{Ord}: Erlaubt Vergleiche (\texttt{>}, \texttt{<}). \textit{Wichtig: Nicht alles, was \texttt{Eq} ist, ist auch \texttt{Ord} (z.\,B. Komplexe Zahlen).}
+    \end{itemize}
+\end{frame}
+
+% ============================================
+% THEORIE: ALGEBRAISCHE DATENTYPEN
+% ============================================
+\section{Algebraische Datentypen (ADT)}
+
+\begin{frame}[fragile]{Aufzählungsdatentypen (Summen-Typen)}
+    Analog zu \texttt{enum} in Java zählen wir eine Menge von exakten Werten auf.
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Wochentag]
+\begin{lstlisting}
+data Wochentag = Montag | Dienstag | Mittwoch | Donnerstag 
+               | Freitag | Samstag | Sonntag
+  deriving (Show, Eq)
+
+printWochentagZahl :: Wochentag -> Integer
+printWochentagZahl Montag = 1
+printWochentagZahl _      = 0
+\end{lstlisting}
+    \end{tcolorbox}
+    \small \textbf{Info:} \texttt{deriving (Show, Eq)} sorgt dafür, dass Haskell die Typen automatisch in der Konsole ausgeben (\texttt{Show}) und vergleichen (\texttt{Eq}) kann.
+\end{frame}
+
+\begin{frame}[fragile]{Produktdatentypen}
+    Kombinieren verschiedene Werte zu einem neuen komplexen Typ (vgl. Klassen in Java).
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Person]
+\begin{lstlisting}
+data Person = Person String Integer 
+  deriving (Show, Eq)
+
+printName :: Person -> String
+printName (Person name alter) = name
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Vordefinierte Typen: \texttt{Maybe} und \texttt{Either}}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=\texttt{Maybe a}]
+\begin{lstlisting}
+data Maybe a = Nothing | Just a
+\end{lstlisting}
+            \end{tcolorbox}
+            \small Verhindert Exceptions, indem ein Wert \texttt{Just x} oder eben \texttt{Nothing} zurückgegeben wird.
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=\texttt{Either a b}]
+\begin{lstlisting}
+data Either a b = Left a | Right b
+\end{lstlisting}
+            \end{tcolorbox}
+            \small Kann für zwei verschiedene Rückgabetypen verwendet werden (oft: \texttt{Left} = Error, \texttt{Right} = Resultat).
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ============================================
+% LOGIK
+% ============================================
+\section{Exkurs: Aussagenlogik}
+
+\begin{frame}{Wertetabellen \& Äquivalenz}
+    \begin{itemize}
+        \item Logische Ausdrücke lassen sich in \textbf{Wertetabellen} auswerten.
+        \item Bei 3 Eingabevariablen (\texttt{a, b, c}) hat die Tabelle exakt $2^3 = 8$ Zeilen.
+        \item \textbf{Äquivalenz:} $A \Leftrightarrow B$ ist genau dann wahr, wenn beide Wahrheitswerte übereinstimmen:
+    \end{itemize}
+    \vspace{0.3cm}
+    \begin{center}
+        \texttt{a <=> b} \quad ist äquivalent zu \quad \texttt{(a \&\& b) || (not a \&\& not b)}
+    \end{center}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{typklassen.hs} \& \texttt{algebraischeDatentypen.hs} \\
+        \vspace{0.3cm}
+        \normalsize Wir programmieren Typklassen und eigene ADTs zusammen im Code!
+    \end{center}
+    
+    \vspace{0.5cm}
+    \textbf{Aufgaben:}
+    \begin{enumerate}
+        \item \texttt{numberToMaybeString} (Fehlervermeidung durch \texttt{Maybe})
+        \item Gerade Zahlen in \texttt{Left}, ungerade in \texttt{Right} packen (\texttt{Either})
+        \item Logikrätsel gemeinsam durchgehen
+    \end{enumerate}
+\end{frame}
+
+\end{document}

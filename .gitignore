@@ -32,3 +32,11 @@ __pycache__/
 *.o
 *.dyn_o
 *.dyn_hi
+*.aux
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.toc
+*.vrb
+*.gz

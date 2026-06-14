@@ -1,0 +1,259 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{trees, shapes, arrows.meta}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error},
+  keywordstyle=\color{Accent}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 12}}
+\subtitle{Sortieralgorithmen}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% O(n^2) ALGOS
+% ============================================
+\section{Quadratische Sortieralgorithmen $\mathcal{O}(n^2)$}
+
+\begin{frame}{Selection Sort \& Bubble Sort}
+    Beide Algorithmen haben eine worst-case Laufzeit von $\mathcal{O}(n^2)$.
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Selection Sort]
+                \begin{enumerate}
+                    \item Finde das kleinste Element.
+                    \item Entferne es aus der Liste.
+                    \item Füge es an die sortierte Teilliste an.
+                    \item Wiederholen.
+                \end{enumerate}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Bubble Sort]
+                \begin{enumerate}
+                    \item Gehe durch die Liste.
+                    \item Vergleiche benachbarte Elemente.
+                    \item Tausche sie, falls sie falsch herum stehen.
+                    \item Wiederholen bis sortiert.
+                \end{enumerate}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Bubble Sort (Visuell)}
+    \begin{center}
+    \begin{tikzpicture}[node distance=1.5cm, every node/.style={draw, rectangle, minimum size=0.8cm, font=\large}]
+        \node (A) {5};
+        \node (B) [right of=A, fill=Accent!20] {9};
+        \node (C) [right of=B, fill=Accent!20] {2};
+        \node (D) [right of=C] {1};
+        \node (E) [right of=D] {6};
+        
+        \draw[->, thick, Accent] (B.north) to[bend left] node[above, draw=none] {\tiny Tausch!} (C.north);
+    \end{tikzpicture}
+    
+    \vspace{0.5cm}
+    \large Bei jedem Durchlauf steigen die größten Elemente wie ,,Blasen`` nach oben.
+    \end{center}
+\end{frame}
+
+
+\begin{frame}{Insertion Sort}
+    Ebenfalls $\mathcal{O}(n^2)$. Sehr intuitiv (ähnlich wie man Spielkarten sortiert).
+    
+    \begin{tcolorbox}[modernbox, title=Ablauf]
+        \begin{enumerate}
+            \item Nimm das nächste Element aus der unsortierten Liste.
+            \item Finde die \textbf{korrekte Stelle} in der bereits sortierten Folge $S$.
+            \item Füge es in $S$ ein.
+            \item Wiederholen.
+        \end{enumerate}
+    \end{tcolorbox}
+    
+    \textbf{Beispiel ($S$ | $F$):} \\
+    $() \quad | \quad (21, 5, 3)$ \\
+    $(21) \quad | \quad (5, 3)$ \\
+    $(5, 21) \quad | \quad (3)$ \\
+    $(3, 5, 21) \quad | \quad ()$
+\end{frame}
+
+% ============================================
+% O(n log n) ALGOS
+% ============================================
+\section{Log-Lineare Sortieralgorithmen $\mathcal{O}(n \log n)$}
+
+\begin{frame}{Merge Sort}
+    Ein klassischer Divide-and-Conquer-Algorithmus mit garantierter Laufzeit $\mathcal{O}(n \log n)$.
+    
+    \begin{tcolorbox}[modernbox, title=Ablauf]
+        \begin{enumerate}
+            \item \textbf{Teilen:} Teile die Liste in der Mitte in zwei Hälften $F_1, F_2$.
+            \item \textbf{Rekursion:} Führe Merge Sort auf $F_1$ und $F_2$ aus.
+            \item \textbf{Mergen:} Füge die sortierten Hälften wieder (in linearer Zeit) zusammen.
+        \end{enumerate}
+    \end{tcolorbox}
+    
+    
+    \begin{center}
+    \begin{tikzpicture}[level distance=1.2cm, sibling distance=2.5cm, every node/.style={rectangle, draw, minimum width=1.2cm, minimum height=0.6cm}]
+    \node {[21, 5, 3, 17]}
+      child {node {[21, 5]}
+        child {node {[21]}}
+        child {node {[5]}}
+      }
+      child {node {[3, 17]}
+        child {node {[3]}}
+        child {node {[17]}}
+      };
+    \end{tikzpicture}
+    \end{center}
+$
+\end{frame}
+
+\begin{frame}{Quick Sort}
+    Sehr schnell in der Praxis, aber worst-case $\mathcal{O}(n^2)$. Average-case $\mathcal{O}(n \log n)$.
+    
+    \begin{tcolorbox}[modernbox, title=Ablauf]
+        \begin{enumerate}
+            \item \textbf{Pivot wählen:} Wähle ein Pivotelement.
+            \item \textbf{Partitionieren:} Teile in $F_1$ (kleiner als Pivot) und $F_2$ (größer/gleich).
+            \item \textbf{Rekursion:} Sortiere $F_1$ und $F_2$.
+            \item \textbf{Zusammensetzen:} $F_1 ++ [Pivot] ++ F_2$
+        \end{enumerate}
+    \end{tcolorbox}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faPen~ \texttt{Altklausuraufgaben zu Sortieralgorithmen} \\
+        \vspace{0.3cm}
+        \normalsize Wir spielen die Algorithmen live an Beispielen durch!
+\vspace{0.5cm}\begin{center}\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_2_exam.pdf}{\beamerbutton{2024\_2}}\quad\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf}{\beamerbutton{2024\_1}}\quad\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_2_exam.pdf}{\beamerbutton{2023\_2}}\quad\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf}{\beamerbutton{2023\_1}}\end{center}
+    \end{center}
+\end{frame}
+
+\end{document}

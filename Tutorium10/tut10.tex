@@ -1,0 +1,240 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{amsmath}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+\definecolor{Warning}{HTML}{FFC107}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    },
+    successbox/.style={
+        modernbox,
+        colbacktitle=Success
+    }
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 10}}
+\subtitle{Laufzeitkomplexität \& $\mathcal{O}$-Notation}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+
+% ============================================
+% THEORIE
+% ============================================
+\section{Laufzeitmessung: Praktisch vs. Theoretisch}
+
+\begin{frame}{Wie messen wir Performance?}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Praktische Messung]
+                Messung der tatsächlichen Zeit (Benchmarks).
+                \begin{itemize}
+                    \item[\textcolor{Success}{\faPlus}] Einfach umzusetzen
+                    \item[\textcolor{Accent}{\faMinus}] Hardware- \& Umgebungsabhängig
+                    \item[\textcolor{Accent}{\faMinus}] Schwer vergleichbar
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Theoretische Analyse]
+                Verhalten im asymptotischen Verlauf. Elementarschritte (Zuweisungen, Vergleiche, Add/Sub) zählen als konstante Zeit $\mathcal{O}(1)$.
+                \begin{itemize}
+                    \item[\textcolor{Success}{\faPlus}] Hardwareunabhängig
+                    \item[\textcolor{Success}{\faPlus}] Fokus auf Skalierbarkeit
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\begin{frame}{Asymptotisches Verhalten}
+    \begin{tcolorbox}[successbox, title=Wichtige Erkenntnisse für große $n$]
+        \begin{enumerate}
+            \item \textbf{Konstante Faktoren sind egal:} \\ Der Unterschied zwischen $2n$ und $10n$ ist im Vergleich zu $n^2$ vernachlässigbar.
+            \item \textbf{Kleinere Terme verschwinden:} \\ In $n^2 + n + 5$ dominiert $n^2$ bei großen $n$ vollständig.
+        \end{enumerate}
+    \end{tcolorbox}
+    
+    \textbf{Rechenregeln:}
+    \begin{itemize}
+        \item $\mathcal{O}(c \cdot f(n)) = \mathcal{O}(f(n))$
+        \item $\mathcal{O}(f(n) + g(n)) = \mathcal{O}(\max(f(n), g(n)))$
+        \item $\mathcal{O}(f(n)) \cdot \mathcal{O}(g(n)) = \mathcal{O}(f(n) \cdot g(n))$
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Asymptotisches Verhalten (Visuell)}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Konstante Faktoren sind egal}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.55]
+                \begin{axis}[
+                    domain=0:10,
+                    samples=50,
+                    axis lines=left,
+                    xlabel=$n$,
+                    ylabel=$f(n)$,
+                    legend pos=north west
+                ]
+                \addplot[thick, Accent] {x^2};
+                \addlegendentry{$n^2$}
+                \addplot[thick, Secondary] {2*x^2};
+                \addlegendentry{$2n^2$}
+                \addplot[thick, dashed, gray] {x^3};
+                \addlegendentry{$n^3$}
+                \end{axis}
+            \end{tikzpicture}
+            \end{center}
+            \href{https://www.desmos.com/calculator/obdm27ccog}{\beamerbutton{In Desmos ansehen}}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \textbf{Kleine Terme verschwinden}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.55]
+                \begin{axis}[
+                    domain=0:100,
+                    samples=50,
+                    axis lines=left,
+                    xlabel=$n$,
+                    legend pos=north west
+                ]
+                \addplot[thick, Accent] {x^2};
+                \addlegendentry{$n^2$}
+                \addplot[thick, Secondary] {x^2 + 10*x};
+                \addlegendentry{$n^2 + 10n$}
+                \end{axis}
+            \end{tikzpicture}
+            \end{center}
+            \href{https://www.desmos.com/calculator/ok8ycuugjl}{\beamerbutton{In Desmos ansehen}}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Komplexitätsklassen}
+    Typische Laufzeitklassen, geordnet nach Wachstum (am schnellsten zu am langsamsten):
+    
+    \vspace{0.3cm}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Klasse} & \textbf{Notation} \\
+        \midrule
+        Konstant & $\mathcal{O}(1)$ \\
+        Logarithmisch & $\mathcal{O}(\log n)$ \\
+        Linear & $\mathcal{O}(n)$ \\
+        Log-Linear & $\mathcal{O}(n \log n)$ \\
+        Quadratisch & $\mathcal{O}(n^2)$ \\
+        Kubisch & $\mathcal{O}(n^3)$ \\
+        Exponentiell & $\mathcal{O}(2^n)$ \\
+        \bottomrule
+    \end{tabular}
+\end{frame}
+
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faPen~ \texttt{Altklausuraufgabe 2024\_1 (Aufgabe 6)} \\
+        \vspace{0.3cm}
+        \normalsize Wir analysieren zusammen die Laufzeitkomplexität am konkreten Beispiel!
+\vspace{0.5cm}\begin{center}\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2024_1_exam.pdf}{\beamerbutton{Altklausur 2024\_1 auf Moodle öffnen}}\end{center}
+    \end{center}
+\end{frame}
+
+
+\end{document}

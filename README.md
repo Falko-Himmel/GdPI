@@ -1,97 +1,32 @@
 # GdPI - Grundlagen der Praktischen Informatik
 
-Tutoren-Repository für die Erstellung von Übungsmaterialien und Beispielen zum GdPI-Tutorium mit Fokus auf funktionale Programmierung in Haskell.
+Tutoren-Repository für die Erstellung von Übungsmaterialien und Beispielen zum GdPI-Tutorium.
 
 ## 📋 Überblick
 
-Dieses Repository dient als zentrale Sammlung von Tutoriumsmaterialien, Codebeispielen und Übungen für das GdPI-Tutorium. Die Inhalte sind thematisch nach Tutorien organisiert und decken grundlegende bis fortgeschrittene Konzepte der funktionalen Programmierung ab.
-
-## 🗂️ Repository-Struktur
-
-```
-GdPI/
-├── Tutorium1/
-│   ├── ex00.hs                          # Einführungsübungen
-│   ├── lineare_end_rekursion.txt        # Notizen zu Rekursionsarten
-│   └── todo.txt                         # Aufgaben und Planung
-├── Tutorium2/
-│   └── 00_Grundlagen_Haskell/
-│       └── haskell.hs                   # Grundlegende Haskell-Konzepte
-├── Tutorium3/
-│   ├── 01_Typklassen/
-│   │   └── typklassen.hs                # Einführung in Typklassen
-│   ├── 02_Algebraische_Datentypen/
-│   │   └── algebraischeDatentypen.hs    # ADTs und Musterabgleich
-│   ├── LogikExkurs/
-│   │   ├── Logik.hs                     # Logische Ausdrücke
-│   │   └── Rätsel.hs                    # Logik-Rätsel
-│   └── anmerkungen.txt                  # Zusätzliche Hinweise
-├── Tutorium4/
-│   ├── 01_VerzweigungenHaskell/
-│   │   └── verzweigungen.hs             # Guards, Case, If-Then-Else
-│   ├── 02_let_where/
-│   │   └── lokaleDefinitionen.hs        # Let- und Where-Bindings
-│   ├── 04_Vector/
-│   │   └── vector.hs                    # Vektoroperationen
-│   └── vectors.hs                       # Vektorbeispiele
-├── Tutorium5/
-│   ├── Listen.hs                        # Listenoperationen
-│   └── Listenkomprehension.hs           # List Comprehensions
-├── Tutorium6/
-│   └── map.hs                           # Map und Higher-Order Functions
-├── HaskellBsp/
-│   └── Test.hs                          # Testbeispiele
-├── foldrToRecursive/
-│   └── foldrToRecursive.hs              # Fold-Funktionen und Rekursion
-├── haskellInJava/
-│   ├── haskellExamples.hs               # Haskell-Beispiele
-│   └── javaExamples.java                # Vergleichende Java-Implementierungen
-├── playground/
-│   └── playground.hs                    # Experimenteller Code
-└── README.md
-```
-
-## 📚 Themenübersicht
-
-### Grundlagen (Tutorium 1-2)
-- Einführung in Haskell-Syntax
-- Rekursion (linear, endrekursiv)
-- Grundlegende Funktionen und Ausdrücke
-
-### Typsystem (Tutorium 3)
-- **Typklassen**: Eq, Ord, Show, Num
-- **Algebraische Datentypen**: Sum Types, Product Types
-- **Musterabgleich**: Pattern Matching
-- **Logik**: Boolesche Ausdrücke und Logikrätsel
-
-### Kontrollstrukturen (Tutorium 4)
-- **Verzweigungen**: Guards, Case-Ausdrücke, If-Then-Else
-- **Lokale Definitionen**: Let-Bindings, Where-Klauseln
-- **Vektoren**: Operationen auf Vektoren
-
-### Listen und Higher-Order Functions (Tutorium 5-6)
-- **Listenoperationen**: head, tail, take, drop, etc.
-- **List Comprehensions**: Listengeneratoren und Filter
-- **Map und Fold**: Higher-Order Functions
-- **Rekursive Patterns**: Von fold zu expliziter Rekursion
-
-### Vergleiche und Beispiele
-- **Haskell vs. Java**: Konzeptvergleiche zwischen funktionaler und objektorientierter Programmierung
-- **Praxisbeispiele**: Anwendungsfälle und Lösungsansätze
+Dieses Repository dient als zentrale Sammlung von Tutoriumsmaterialien, Codebeispielen und Übungen für das GdPI-Tutorium. 
 
 
+##  Tutorien
 
-## 🎯 Lernziele
+- 📊 [Tutorium 1: Grundlagen Rekursion (PDF)](Tutorium1/tut1.pdf) - Rekursionsarten (linear vs endrekursiv) und Klausuraufgaben.
+- 📊 [Tutorium 2: Grundlagen Haskell (PDF)](Tutorium2/tut2.pdf) - Basis-Syntax, Listen, Typen und einfache Funktionen.
+- 📊 [Tutorium 3: Typklassen & ADTs (PDF)](Tutorium3/tut3.pdf) - Eigene Datentypen (`data`), Pattern Matching und Logik-Exkurs.
+- 📊 [Tutorium 4: Kontrollstrukturen (PDF)](Tutorium4/tut4.pdf) - Guards, Case-Ausdrücke, If-Then-Else und `let`/`where` Bindings.
+- 📊 [Tutorium 5: Listen (PDF)](Tutorium5/tut5.pdf) - Listenoperationen und Listenkomprehension (`List Comprehension`).
+- 📊 [Tutorium 6: Higher Order Functions (PDF)](Tutorium6/tut6.pdf) - Die wichtigen Funktionen `map`, `filter` und `foldr`/`foldl`.
+- 📊 [Tutorium 7: Bäume & Altklausuren (PDF)](Tutorium7/tut7.pdf) - Binärbäume und erste Altklausuraufgaben (Fold, Filter).
+- 📊 [Tutorium 8: Abstrakte Datenstrukturen (PDF)](Tutorium8/tut8.pdf) - Stacks (LIFO), Queues (FIFO) und Hash-Maps mit Diagrammen.
+- 📊 [Tutorium 9: Altklausuraufgaben Bäume (PDF)](Tutorium9/tut9.pdf) - Vertiefte Aufgaben zu Bäumen (innere Knoten zählen, Tree Folds).
+- 📊 [Tutorium 10: Laufzeitkomplexität (PDF)](Tutorium10/tut10.pdf) - Die O-Notation, Konstanten und Graphen-Visualisierungen.
+- 📊 [Tutorium 11: Suchalgorithmen (PDF)](Tutorium11/tut11.pdf) - Lineare vs. Binäre Suche visuell erklärt.
+- 📊 [Tutorium 12: Sortieralgorithmen (PDF)](Tutorium12/tut12.pdf) - Bubble, Selection, Insertion, Merge und Quick Sort.
+- 📊 [Tutorium 13: Tests & Beweise (PDF)](Tutorium13/tut13.pdf) - QuickCheck (Blackbox) und vollständige Induktion in Haskell.
 
-- Verständnis funktionaler Programmierkonzepte
-- Beherrschung der Haskell-Syntax und -Semantik
-- Fähigkeit zur Implementierung rekursiver Algorithmen
-- Anwendung von Higher-Order Functions
-- Typsicheres Programmieren mit algebraischen Datentypen
 
 ## 👥 Team
 
-Gemeinsamer Arbeitsbereich des Tutoren-Teams für GdPI (WiSe 2025/26).
+Gemeinsamer Arbeitsbereich von Max, Malte und Falko für das GdPI Tut.
 
 ## ⚠️ Haftungsausschluss
 
@@ -104,7 +39,4 @@ Die hier bereitgestellten Materialien dienen ausschließlich als **ergänzende L
 - Bei Widersprüchen gelten die offiziellen Lehrmaterialien
 
 Die Nutzung erfolgt auf eigene Verantwortung. Wir empfehlen, die Inhalte kritisch zu prüfen und bei Unklarheiten einfach nochmal nachzufragen.
----
-
-*Stand: November 2025*
 

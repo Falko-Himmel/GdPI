@@ -1,0 +1,226 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    successbox/.style={
+        modernbox,
+        colbacktitle=Success
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error},
+  keywordstyle=\color{Accent}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 5}}
+\subtitle{Listen \& Listenkomprehension}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% LISTEN
+% ============================================
+\section{Listen in Haskell}
+
+\begin{frame}[fragile]{Was ist eine Liste?}
+    Eine Liste ist ein algebraischer Datentyp, der rekursiv definiert ist:
+    \[ \texttt{data [a] = [] | a : [a]} \]
+    
+    \begin{itemize}
+        \item \texttt{[]} ist die \textbf{leere Liste} (Basisfall).
+        \item \texttt{a : [a]} ist eine Liste mit einem \textbf{Kopf (Head)} und einem \textbf{Rest (Tail)}.
+    \end{itemize}
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Listenaufbau]
+\begin{lstlisting}
+-- Listenliteral als Syntax Sugar
+[1, 2, 3, 4] == 1 : 2 : 3 : 4 : []
+
+-- Pattern Matching auf Listen
+head' :: [a] -> a
+head' (x:xs) = x
+\end{lstlisting}
+    \end{tcolorbox}
+    \small \textbf{Zusatz:} Strings sind einfach Listen von Characters: \texttt{\char`\"Hallo\char`\" == ['H', 'a', 'l', 'l', 'o']}.
+\end{frame}
+
+\begin{frame}[fragile]{Operationen auf Listen}
+    Da Listen rekursiv sind, werden Operationen meist über \textbf{Pattern Matching} und Rekursion gelöst.
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Element anfügen (Cons)]
+\begin{lstlisting}
+cons :: [a] -> a -> [a]
+cons [] el     = [el]
+cons (x:xs) el = x : cons xs el
+\end{lstlisting}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=n-tes Element finden]
+\begin{lstlisting}
+nth :: Int -> [a] -> a
+nth 0 (x:_)  = x
+nth _ []     = error "Out of bounds"
+nth n (_:xs) = nth (n-1) xs
+\end{lstlisting}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ============================================
+% LISTENKOMPREHENSION
+% ============================================
+\section{Listenkomprehension}
+
+\begin{frame}[fragile]{Listenkomprehension (List Comprehension)}
+    Kompakte Schreibweise, um neue Listen aus alten zu erzeugen (ähnlich der Mengenlehre in der Mathematik).
+    
+    \textbf{Struktur:} \texttt{[ Ausdruck | Generator, Filter ]}
+    
+    \begin{tcolorbox}[successbox, title=Beispiele]
+\begin{lstlisting}
+-- Alle Quadratzahlen von 1 bis 10
+squares = [x^2 | x <- [1..10]]
+
+-- Nur gerade Quadratzahlen (mit Filter)
+evenSquares = [x^2 | x <- [1..10], even x]
+
+-- Vielfache von 3
+multiplesOfThree = [x | x <- [1..30], x `mod` 3 == 0]
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{Listen.hs} \& \texttt{Listenkomprehension.hs} \\
+        \vspace{0.3cm}
+        \normalsize Gemeinsame Programmierung von Listenoperationen.
+    \end{center}
+    
+    \vspace{0.5cm}
+    \textbf{Aufgaben:}
+    \begin{enumerate}
+        \item Ein Element in einer Liste suchen (\texttt{findFirst}, \texttt{firstGreaterThan})
+        \item Elemente an einem Index einfügen (\texttt{insertAt})
+        \item Gefilterte Listen (z.\,B. \texttt{removeTwos})
+    \end{enumerate}
+\end{frame}
+
+\end{document}

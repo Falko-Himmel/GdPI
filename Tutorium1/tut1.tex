@@ -1,0 +1,240 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Modern Font (if installed, otherwise falls back smoothly)
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{itemize subitem}{fg=Secondary}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    },
+    successbox/.style={
+        modernbox,
+        colbacktitle=Success
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, instance, func, return},
+  keywordstyle=\color{Accent}\bfseries,
+  ndkeywords={print, main},
+  ndkeywordstyle=\color{Secondary}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{\#},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE SETTINGS
+% ============================================
+\title{\textbf{Tutorium 1}}
+\subtitle{Endrekursion vs. Lineare Rekursion}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% THEORIE
+% ============================================
+\section{Theorie: Rekursionsarten}
+
+\begin{frame}{Klausuraufgabe}
+    \begin{tcolorbox}[modernbox, title=\faQuestionCircle\ Typische Frage]
+        Bewerten Sie, ob die folgende Aussage korrekt ist und begründen Sie Ihre Antwort:
+        \vspace{0.3cm}
+        
+        \textit{,,Jede endrekursive Funktion ist auch linear rekursiv umsetzbar.''}
+    \end{tcolorbox}
+    
+    \vspace{0.5cm}
+    \pause
+    \begin{itemize}
+        \item[\faCheckCircle] \textbf{Kurzantwort:} Ja!
+        \item Jede endrekursive Funktion lässt sich in eine (äquivalente) linear rekursive Funktion umschreiben.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Endrekursion $\rightarrow$ Lineare Rekursion}
+    \textbf{Endrekursion:} Der rekursive Aufruf ist der letzte Ausdruck. Kein weiterer Work nach der Rückkehr!
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Endrekursiv (mit Akkumulator)]
+\begin{lstlisting}
+func fak(n, acc):
+    if n == 0:
+        return acc
+    return fak(n-1, n * acc)
+\end{lstlisting}
+            \end{tcolorbox}
+            \small \textbf{Aufruf:} \texttt{fak(3, 1) $\rightarrow$ fak(2, 3) $\rightarrow$ ... $\rightarrow$ 6}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[successbox, title=Linear Rekursiv]
+\begin{lstlisting}
+func fak(n):
+    if n == 0:
+        return 1
+    return n * fak(n-1)
+\end{lstlisting}
+            \end{tcolorbox}
+            \small \textbf{Aufruf:} \texttt{3 * fak(2) $\rightarrow$ 3 * 2 * fak(1) $\rightarrow$ ... $\rightarrow$ 6}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Lineare Rekursion $\rightarrow$ Endrekursion}
+    Die Umwandlung von linear zu endrekursiv ist \textbf{nicht immer trivial}. Es hängt davon ab, ob das Ergebnis schrittweise als Akkumulator aufgebaut werden kann.
+    
+    \begin{tcolorbox}[alertbox, title=Beispiel: $f(x) = 2 \cdot f(x-1) + 1$]
+\begin{lstlisting}
+func f(x):
+    if x == 0:
+        return 1
+    return 2 * f(x-1) + 1
+\end{lstlisting}
+    \end{tcolorbox}
+    \vspace{0.2cm}
+    \small \textbf{Problem:} Das Ergebnis ist auf jeder Ebene eine lineare Kombination. Eine direkte Endrekursion ohne Hilfsmittel (geschlossene Form oder iterative Akkumulatoren) ist nicht offensichtlich.
+\end{frame}
+
+\begin{frame}[fragile]{Lösung über die geschlossene Form}
+    Oft hilft eine Umformung (geschlossene Form). Für unser Beispiel gilt:
+    \[ f(x) = 2^{x+1} - 1 \]
+    
+    \begin{tcolorbox}[modernbox, title=Iterative/Endrekursive Umsetzung]
+\begin{lstlisting}
+func f_tail(x, acc):
+    if x == 0:
+        return acc
+    return f_tail(x-1, 2*acc + 1)
+\end{lstlisting}
+    \end{tcolorbox}
+    \small
+    \textbf{Aufruf für $x=3, acc=1$:} \\
+    \texttt{f\_tail(3, 1) $\rightarrow$ f\_tail(2, 3) $\rightarrow$ f\_tail(1, 7) $\rightarrow$ f\_tail(0, 15) $\rightarrow$ 15}
+\end{frame}
+
+\begin{frame}{Zusammenfassung}
+    \begin{tcolorbox}[modernbox, title=\faListUl\ Wichtige Erkenntnisse]
+        \begin{itemize}
+            \item \textbf{Endrekursion $\rightarrow$ Linear:} Immer möglich! (Akkumulator entfernen, Rechnung beim Zurückkehren durchführen).
+            \item \textbf{Linear $\rightarrow$ Endrekursion:} Nicht immer trivial. Manche linearen Rekursionen benötigen zusätzliche Akkumulatoren oder eine geschlossene Form.
+            \item \textbf{Prinzip:} Endrekursion trägt das Zwischenergebnis in Parametern; lineare Rekursion baut das Ergebnis beim Zurückkehren auf.
+        \end{itemize}
+    \end{tcolorbox}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{ex00.hs} \\
+        \vspace{0.3cm}
+        \normalsize Wir programmieren den \textbf{Hello World} und \textbf{ggT} (Größter gemeinsamer Teiler) zusammen im Code!
+    \end{center}
+\end{frame}
+
+\end{document}

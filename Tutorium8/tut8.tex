@@ -1,0 +1,483 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error, instance},
+  keywordstyle=\color{Accent}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 8}}
+\subtitle{Abstrakte Datenstrukturen \& Hash-Maps}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+% ============================================
+% STACKS & QUEUES
+% ============================================
+\section{Stacks und Queues}
+
+\begin{frame}{Abstrakte Datenstrukturen (ADTs)}
+    Stacks und Queues definieren, in welcher Reihenfolge Elemente eingefügt und entnommen werden.
+    
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=\faLayerGroup\ Stack (LIFO)]
+                \textbf{L}ast \textbf{I}n, \textbf{F}irst \textbf{O}ut
+                \begin{itemize}
+                    \item \texttt{push}: Element oben drauflegen
+                    \item \texttt{pop}: Oberstes Element entfernen
+                \end{itemize}
+                \textit{Beispiel: Undo-Historie, Tiefensuche.}
+            \end{tcolorbox}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=\faUsers\ Queue (FIFO)]
+                \textbf{F}irst \textbf{I}n, \textbf{F}irst \textbf{O}ut
+                \begin{itemize}
+                    \item \texttt{enqueue}: Element hinten anstellen
+                    \item \texttt{dequeue}: Vorderstes Element entfernen
+                \end{itemize}
+                \textit{Beispiel: Warteschlangen, Breitensuche.}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+
+\begin{frame}{Visualisierung}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+            \textbf{Stack (LIFO)}\\
+            \vspace{0.3cm}
+            \begin{tikzpicture}
+                \draw[thick] (0,0) -- (0,2);
+                \draw[thick] (1.5,0) -- (1.5,2);
+                \draw[thick] (0,0) -- (1.5,0);
+                \draw[fill=Accent!20] (0.1,0.1) rectangle (1.4,0.6) node[pos=.5] {1};
+                \draw[fill=Accent!40] (0.1,0.7) rectangle (1.4,1.2) node[pos=.5] {2};
+                \draw[->, thick, Accent] (2, 2) to[bend left] node[right] {\tiny push 3} (0.75, 1.4);
+                \draw[->, thick, Secondary] (0.75, 1.4) to[bend left] node[left] {\tiny pop} (-0.5, 2);
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{center}
+            \textbf{Queue (FIFO)}\\
+            \vspace{0.3cm}
+            \begin{tikzpicture}
+                \draw[thick] (0,0) -- (3,0);
+                \draw[thick] (0,1) -- (3,1);
+                \draw[fill=Success!20] (0.2,0.1) rectangle (0.8,0.9) node[pos=.5] {A};
+                \draw[fill=Success!40] (1.0,0.1) rectangle (1.6,0.9) node[pos=.5] {B};
+                \draw[fill=Success!60] (1.8,0.1) rectangle (2.4,0.9) node[pos=.5] {C};
+                \draw[<-, thick, Success] (2.6, 0.5) -- (3.5, 0.5) node[right] {\tiny enqueue};
+                \draw[->, thick, Secondary] (-0.8, 0.5) -- (0, 0.5) node[left] {\tiny dequeue};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Umsetzung in Haskell (Typklassen)}
+    Wir können das Verhalten über Typklassen definieren.
+    
+    \begin{tcolorbox}[modernbox, title=Stack-Implementierung mit Listen]
+\begin{lstlisting}
+class Stack s where
+    push   :: a -> s a -> s a 
+    pop    :: s a -> (a, s a)
+    sEmpty :: s a -> Bool
+
+instance Stack [] where
+    push       = (:)
+    pop []     = error "Stack is empty!"
+    pop (x:xs) = (x, xs)
+    sEmpty     = null
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+% ============================================
+% HASH-MAPS
+% ============================================
+\section{Hash-Maps}
+
+\begin{frame}{Hash-Maps: Grundlagen}
+    Eine \textbf{Hash-Map} ordnet Schlüssel (Keys) auf Werte (Values) zu. Die Position in der Tabelle wird durch Hashing berechnet. 
+    
+    \begin{tcolorbox}[modernbox, title=Hash-Funktion \& Lastfaktor]
+        \begin{itemize}
+            \item \textbf{Kongruenzmethode:} $h(k) = f(k) \pmod m$\\
+                  $m$ wird idealerweise als Primzahl gewählt.
+            \item \textbf{Lastfaktor ($\alpha$):} Verhältnis zwischen belegten und verfügbaren Plätzen ($\alpha = \frac{n}{m}$).
+        \end{itemize}
+    \end{tcolorbox}
+    
+    \textbf{Laufzeit:} Im Mittel $\mathcal{O}(1)$ für Suche, Einfügen und Löschen!
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Kollisionen}
+    \begin{tcolorbox}[alertbox, title=Kollision]
+        Eine Kollision liegt vor, wenn $h(k) = h(k')$ für zwei verschiedene Schlüssel $k \neq k'$.
+    \end{tcolorbox}
+    
+    \textbf{Strategien zur Behandlung:}
+    \begin{itemize}
+        \item \textbf{Separate Chaining:} Eine Liste / Bucket pro Tabellenfeld.
+        \item \textbf{Offene Adressierung:} Bei Belegung weicht man auf andere Indizes aus.
+        \begin{itemize}
+            \item Lineares Sondieren ($+1, +2, +3 \dots$)
+            \item Quadratisches Sondieren ($+1^2, +2^2, +3^2 \dots$)
+            \item Double Hashing (Zweite Hash-Funktion berechnet Sprungweite)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{02\_Abstrakte\_Datenstrukturen.hs} \\
+        \vspace{0.3cm}
+        \normalsize Gemeinsame Besprechung von Hash-Maps \& Klausuraufgabe (2023).
+\vspace{0.5cm}\begin{center}\href{https://moodle.uni-ulm.de/pluginfile.php/1348606/mod_folder/content/0/2023_1_exam.pdf}{\beamerbutton{Altklausur 2023\_1 auf Moodle öffnen}}\end{center}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Hash-Maps: Visualisierung}
+    \begin{center}
+    \begin{tikzpicture}
+        \node (key) at (0,2) {\textbf{Key: ,,Apfel``}};
+        \node[draw, rounded corners, fill=Secondary!20] (hash) at (3,2) {$h(k) = f(k) \pmod m$};
+        \node (index) at (6,2) {\textbf{Index: 2}};
+        
+        \draw[->, thick] (key) -- (hash);
+        \draw[->, thick] (hash) -- (index);
+        
+        \draw[thick] (5,-1) grid (7,1.5);
+        \node at (6, 1.25) {0};
+        \node at (6, 0.75) {1};
+        \node[fill=Accent!30, minimum width=1.9cm, minimum height=0.4cm] at (6, 0.25) {Value};
+        \node at (4.5, 0.25) {\footnotesize $\leftarrow$ Index 2};
+        \node at (6, -0.25) {3};
+        \node at (6, -0.75) {4};
+        
+        \draw[->, thick, Accent] (index) -- (6, 0.5);
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+\end{document}

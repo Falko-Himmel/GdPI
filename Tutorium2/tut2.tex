@@ -1,0 +1,209 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Modern Font (if installed, otherwise falls back smoothly)
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+\setbeamercolor{itemize subitem}{fg=Secondary}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    },
+    successbox/.style={
+        modernbox,
+        colbacktitle=Success
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, instance},
+  keywordstyle=\color{Accent}\bfseries,
+  ndkeywords={print, main, return},
+  ndkeywordstyle=\color{Secondary}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE SETTINGS
+% ============================================
+\title{\textbf{Tutorium 2}}
+\subtitle{Grundlagen Haskell}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% THEORIE
+% ============================================
+\section{Theorie: Funktionen \& Typen}
+
+\begin{frame}[fragile]{Funktionen in Haskell}
+    Funktionen in Haskell verhalten sich ähnlich wie mathematische Funktionen. Sie bestehen aus einem \textbf{Bezeichner}, \textbf{Parametern} und einem \textbf{Ausdruck}.
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Addition]
+\begin{lstlisting}
+-- Definition ohne explizite Typen
+add x y = x + y
+\end{lstlisting}
+    \end{tcolorbox}
+    
+    \begin{itemize}
+        \item \textbf{Bezeichner:} \texttt{add}
+        \item \textbf{Parameter:} \texttt{x} und \texttt{y}
+        \item \textbf{Ausdruck:} \texttt{x + y}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Typsignaturen}
+    In Haskell kann (und sollte) man optional eine \textbf{Typsignatur} angeben.
+    
+    \begin{tcolorbox}[modernbox, title=Funktion mit Typsignatur]
+\begin{lstlisting}
+-- func' :: Parameter 1 -> Parameter 2 -> Parameter 3 -> Rueckgabetyp
+func' :: Integer -> Integer -> String -> Integer
+func' x y z = x + y
+\end{lstlisting}
+    \end{tcolorbox}
+    
+    \begin{itemize}
+        \item \texttt{::} bedeutet ``hat den Typ''.
+        \item Die Typen der Parameter werden nacheinander mit \texttt{->} getrennt.
+        \item Der \textbf{letzte Typ} in der Kette ist immer der \textbf{Rückgabetyp}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Rekursion Basics}
+    Ein rekursiver Algorithmus benötigt immer einen \textbf{Basisfall}, damit er terminieren kann. Ansonsten entsteht eine Endlosschleife!
+    
+    \begin{tcolorbox}[alertbox, title=Beispiel: Fakultät]
+\begin{lstlisting}
+-- 5! = 5 * 4! = 5 * (4 * 3!) ...
+fak :: Integer -> Integer
+fak 0 = 1                   -- Basisfall
+fak x = x * fak (x-1)       -- Rekursiver Aufruf
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{haskell.hs} \\
+        \vspace{0.3cm}
+        \normalsize Wir programmieren Pattern Matching und verschiedene Rekursionsarten zusammen im Code!
+    \end{center}
+    
+    \vspace{0.5cm}
+    \textbf{Aufgaben:}
+    \begin{enumerate}
+        \item Wir wollen die Zahlen 1 - 3 als Wort ausgeben (,,eins``, ,,zwei``), sonst einen Fehler.
+        \item Fakultät mit Akkumulator (Endrekursion) definieren.
+        \item Welche Rekursionsarten liegen vor?
+    \end{enumerate}
+\end{frame}
+
+\end{document}

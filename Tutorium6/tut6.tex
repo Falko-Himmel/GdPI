@@ -1,0 +1,216 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, hooks}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Modern Font
+\IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ============================================
+% COLORS & DESIGN SYSTEM
+% ============================================
+\definecolor{BgColor}{HTML}{FAFAFA}
+\definecolor{Primary}{HTML}{2B3A42}
+\definecolor{Accent}{HTML}{E84A5F}
+\definecolor{Secondary}{HTML}{3F5765}
+\definecolor{CodeBg}{HTML}{F0F0F0}
+\definecolor{Success}{HTML}{28A745}
+
+\setbeamercolor{background canvas}{bg=BgColor}
+\setbeamercolor{title}{fg=Primary}
+\setbeamercolor{frametitle}{bg=Primary, fg=white}
+\setbeamercolor{structure}{fg=Accent}
+\setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\tiny Falko Himmel
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% ============================================
+% CUSTOM BOXES
+% ============================================
+\tcbset{
+    modernbox/.style={
+        enhanced,
+        boxrule=0pt,
+        frame hidden,
+        colback=white,
+        coltitle=white,
+        colbacktitle=Secondary,
+        fonttitle=\bfseries,
+        drop lifted shadow,
+        arc=4pt,
+        toptitle=2mm,
+        bottomtitle=2mm,
+        left=2mm,
+        right=2mm
+    },
+    alertbox/.style={
+        modernbox,
+        colbacktitle=Accent
+    }
+}
+
+% ============================================
+% CODE LISTINGS
+% ============================================
+\lstdefinelanguage{Haskell}{
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error},
+  keywordstyle=\color{Accent}\bfseries,
+  identifierstyle=\color{Primary},
+  sensitive=true,
+  comment=[l]{--},
+  commentstyle=\color{gray}\ttfamily\itshape,
+  stringstyle=\color{teal}\ttfamily,
+  morestring=[b]"
+}
+
+\lstset{
+    language=Haskell,
+    backgroundcolor=\color{CodeBg},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{CodeBg},
+    frameround=tttt,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=15pt,
+    tabsize=4,
+    showstringspaces=false
+}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\title{\textbf{Tutorium 6}}
+\subtitle{Higher Order Functions: Map, Fold \& Filter}
+\institute{Grundlagen der Praktischen Informatik}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
+
+% ============================================
+% THEORIE
+% ============================================
+\section{Lambda-Funktionen}
+
+\begin{frame}[fragile]{Anonyme Funktionen (Lambdas)}
+    Lambda-Funktionen sind anonyme Funktionen, die man ``on the fly'' erstellen kann, ohne ihnen einen Namen zu geben.
+    
+    \begin{tcolorbox}[modernbox, title=Syntax einer Lambda-Funktion]
+\begin{lstlisting}
+-- Normal:
+addOne' :: Int -> Int
+addOne' x = x + 1
+
+-- Mit Lambda:
+addOne :: Int -> Int
+addOne x = (\x -> x + 1) x
+\end{lstlisting}
+    \end{tcolorbox}
+    \small Startet mit \texttt{\textbackslash} (Backslash), gefolgt von Parametern, einem Pfeil \texttt{->} und dem Ausdruck.
+\end{frame}
+
+\section{Map \& Filter}
+
+\begin{frame}[fragile]{Die \texttt{map} Funktion}
+    \texttt{map} wendet eine Funktion auf \textbf{jedes} Element einer Liste an. Die Länge und Reihenfolge der Liste bleibt erhalten!
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Map]
+\begin{lstlisting}
+-- Alle Elemente quadrieren
+squareListMap :: Num a => [a] -> [a]
+squareListMap xs = map (\x -> x^2) xs
+
+-- Nur gerade Zahlen verdoppeln
+doubleEvens :: [Int] -> [Int]
+doubleEvens xs = map (\x -> if even x then x * 2 else x) xs
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Die \texttt{filter} Funktion}
+    \texttt{filter} prüft jedes Element gegen eine Bedingung (Prädikat) und behält nur jene, für die \texttt{True} zurückgegeben wird.
+    
+    \begin{tcolorbox}[modernbox, title=Beispiel: Filter]
+\begin{lstlisting}
+filterEvens :: [Int] -> [Int]
+filterEvens xs = filter (\x -> even x) xs
+-- Aufruf: filterEvens [1,2,3,4,5,6] -> [2,4,6]
+
+filterGreaterThanFive :: [Int] -> [Int]
+filterGreaterThanFive xs = filter (\x -> x > 5) xs
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+\section{Fold}
+
+\begin{frame}[fragile]{\texttt{foldr} und \texttt{foldl}}
+    \texttt{fold} reduziert eine Liste auf einen einzigen Wert (z.\,B. Summe).
+    \begin{itemize}
+        \item \texttt{foldr} (Right): Faltet von rechts nach links. Baut den Term rekursiv auf.
+        \item \texttt{foldl} (Left): Faltet von links nach rechts.
+    \end{itemize}
+    
+    \begin{tcolorbox}[alertbox, title=Wichtig bei nicht-kommutativen Operationen (z.B. Division)]
+\begin{lstlisting}
+foldDivr xs = foldr (/) 1 xs
+-- [2,4,8] => 2 / (4 / (8 / 1)) = 4.0
+
+foldDivl xs = foldl (/) 1 xs
+-- [2,4,8] => ((1 / 2) / 4) / 8 = 0.015625 (1/64)
+\end{lstlisting}
+    \end{tcolorbox}
+\end{frame}
+
+% ============================================
+% LIVE DEMO
+% ============================================
+\section{Praxis}
+
+\begin{frame}[plain]
+    \begin{center}
+        \Huge \textbf{Live Demo} \\
+        \vspace{0.5cm}
+        \large \faLaptopCode~ \texttt{01\_map.hs}, \texttt{02\_fold.hs}, \texttt{03\_filter.hs} \\
+        \vspace{0.3cm}
+        \normalsize Wir programmieren Higher Order Functions live im Code.
+    \end{center}
+\end{frame}
+
+\end{document}
