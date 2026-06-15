@@ -8,20 +8,21 @@ Dieses Repository dient als zentrale Sammlung von Tutoriumsmaterialien, Codebeis
 
 
 ##  Tutorien
-
-- 📊 [Tutorium 1: Grundlagen Rekursion (PDF)](Tutorium1/tut1.pdf) - Rekursionsarten (linear vs endrekursiv) und Klausuraufgaben.
-- 📊 [Tutorium 2: Grundlagen Haskell (PDF)](Tutorium2/tut2.pdf) - Basis-Syntax, Listen, Typen und einfache Funktionen.
-- 📊 [Tutorium 3: Typklassen & ADTs (PDF)](Tutorium3/tut3.pdf) - Eigene Datentypen (`data`), Pattern Matching und Logik-Exkurs.
-- 📊 [Tutorium 4: Kontrollstrukturen (PDF)](Tutorium4/tut4.pdf) - Guards, Case-Ausdrücke, If-Then-Else und `let`/`where` Bindings.
-- 📊 [Tutorium 5: Listen (PDF)](Tutorium5/tut5.pdf) - Listenoperationen und Listenkomprehension (`List Comprehension`).
-- 📊 [Tutorium 6: Higher Order Functions (PDF)](Tutorium6/tut6.pdf) - Die wichtigen Funktionen `map`, `filter` und `foldr`/`foldl`.
-- 📊 [Tutorium 7: Bäume & Altklausuren (PDF)](Tutorium7/tut7.pdf) - Binärbäume und erste Altklausuraufgaben (Fold, Filter).
-- 📊 [Tutorium 8: Abstrakte Datenstrukturen (PDF)](Tutorium8/tut8.pdf) - Stacks (LIFO), Queues (FIFO) und Hash-Maps mit Diagrammen.
-- 📊 [Tutorium 9: Altklausuraufgaben Bäume (PDF)](Tutorium9/tut9.pdf) - Vertiefte Aufgaben zu Bäumen (innere Knoten zählen, Tree Folds).
-- 📊 [Tutorium 10: Laufzeitkomplexität (PDF)](Tutorium10/tut10.pdf) - Die O-Notation, Konstanten und Graphen-Visualisierungen.
-- 📊 [Tutorium 11: Suchalgorithmen (PDF)](Tutorium11/tut11.pdf) - Lineare vs. Binäre Suche visuell erklärt.
-- 📊 [Tutorium 12: Sortieralgorithmen (PDF)](Tutorium12/tut12.pdf) - Bubble, Selection, Insertion, Merge und Quick Sort.
-- 📊 [Tutorium 13: Tests & Beweise (PDF)](Tutorium13/tut13.pdf) - QuickCheck (Blackbox) und vollständige Induktion in Haskell.
+| Tutorium | Inhalt | PDF |
+|-----------|---------|-----|
+| 1 | Grundlagen Rekursion – Rekursionsarten (linear vs. endrekursiv) und Klausuraufgaben | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium1/tut1.pdf) |
+| 2 | Grundlagen Haskell – Basis-Syntax, Listen, Typen und einfache Funktionen | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium2/tut2.pdf) |
+| 3 | Typklassen & ADTs – Eigene Datentypen (`data`), Pattern Matching und Logik-Exkurs | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium3/tut3.pdf) |
+| 4 | Kontrollstrukturen – Guards, Case-Ausdrücke, If-Then-Else und `let`/`where` Bindings | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium4/tut4.pdf) |
+| 5 | Listen – Listenoperationen und Listenkomprehensionen (List Comprehension) | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium5/tut5.pdf) |
+| 6 | Higher Order Functions – `map`, `filter` sowie `foldr` und `foldl` | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium6/tut6.pdf) |
+| 7 | Bäume & Altklausuren – Binärbäume und erste Altklausuraufgaben | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium7/tut7.pdf) |
+| 8 | Abstrakte Datenstrukturen – Stacks (LIFO), Queues (FIFO) und Hash-Maps | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium8/tut8.pdf) |
+| 9 | Altklausuraufgaben Bäume – Vertiefte Aufgaben zu Bäumen und Tree Folds | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium9/tut9.pdf) |
+| 10 | Laufzeitkomplexität – O-Notation, Konstanten und Graphen-Visualisierungen | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium10/tut10.pdf) |
+| 11 | Suchalgorithmen – Lineare und Binäre Suche visuell erklärt | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium11/tut11.pdf) |
+| 12 | Sortieralgorithmen – Bubble, Selection, Insertion, Merge und Quick Sort | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium12/tut12.pdf) |
+| 13 | Tests & Beweise – QuickCheck (Blackbox) und vollständige Induktion in Haskell | [![Download](https://img.shields.io/badge/PDF-Download-red?style=for-the-badge)](https://raw.githubusercontent.com/Falko-Himmel/GdPI/main/Tutorium13/tut13.pdf) |
 
 
 ## 👥 Team
