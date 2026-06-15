@@ -12,6 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{tikz}
+\usetikzlibrary{trees, shapes, arrows.meta}
 
 % Modern Font
 \IfFileExists{FiraSans.sty}{\usepackage[sfdefault]{FiraSans}}{}
@@ -32,13 +34,14 @@
 \setbeamercolor{frametitle}{bg=Primary, fg=white}
 \setbeamercolor{structure}{fg=Accent}
 \setbeamercolor{normal text}{fg=Primary}
+\setbeamercolor{itemize item}{fg=Accent}
 
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}{%
   \leavevmode%
   \hbox{%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-    \usebeamerfont{author in head/foot}\tiny Falko Himmel, Malte Baumann, Max Lehm
+    \usebeamerfont{author in head/foot}\tiny Falko, Malte, Max, Jana
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
     \usebeamerfont{title in head/foot}\tiny Grundlagen der Praktischen Informatik
@@ -78,7 +81,7 @@
 % CODE LISTINGS
 % ============================================
 \lstdefinelanguage{Haskell}{
-  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case},
+  keywords={class, data, deriving, do, else, if, in, import, let, module, of, then, type, where, case, error},
   keywordstyle=\color{Accent}\bfseries,
   identifierstyle=\color{Primary},
   sensitive=true,
@@ -106,8 +109,8 @@
 % ============================================
 % TITLE PAGE
 % ============================================
-\title{\textbf{Tutorium 4}}
-\subtitle{Verzweigungen, Lokale Definitionen \& Tupel}
+\title{\textbf{Tutorium 7}}
+\subtitle{Bäume \& Altklausuraufgaben}
 \institute{Grundlagen der Praktischen Informatik}
 \author{}
 \date{\today}
@@ -118,92 +121,108 @@
     \titlepage
 \end{frame}
 
-% ============================================
-% THEORIE
-% ============================================
-\section{Verzweigungen}
+\begin{frame}{Inhaltsverzeichnis}
+    \tableofcontents
+\end{frame}
 
-\begin{frame}[fragile]{Verzweigungen in Haskell}
-    Haskell bietet verschiedene Wege, um logische Pfade zu steuern.
+% ============================================
+% BÄUME
+% ============================================
+\section{Bäume}
+
+\begin{frame}[fragile]{Binärbäume in Haskell}
+    Bäume sind rekursive Datenstrukturen. Ein Baum kann leer sein (\texttt{Nil}) oder ein Knoten (\texttt{Node}) mit einem Wert und zwei Teilbäumen (links und rechts).
+    
+    \begin{tcolorbox}[modernbox, title=Definition eines Binärbaums]
+\begin{lstlisting}
+data BinTree a = Nil | Node a (BinTree a) (BinTree a)
+  deriving (Show, Eq)
+\end{lstlisting}
+    \end{tcolorbox}
+    \small
+    \textbf{Beispiel eines Knotens (Blatt):} \texttt{Node 3 Nil Nil}
+
+    \vspace{0.3cm}
+    \begin{center}
+    \begin{tikzpicture}[level distance=0.8cm, sibling distance=1.5cm, every node/.style={circle, draw, minimum size=0.5cm}]
+    \node {8}
+      child {node {3}
+        child {node {1}}
+        child {node {6}}
+      }
+      child {node {10}
+        child {node[draw=none] {}}
+        child {node {14}}
+      };
+    \end{tikzpicture}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operationen auf Bäumen}
+    Analog zu Listen werden Operationen auf Bäumen über \textbf{Pattern Matching} realisiert. Wir definieren einen Fall für \texttt{Nil} und einen für \texttt{Node}.
     
     \begin{columns}[T]
-        \begin{column}{0.31\textwidth}
-            \begin{tcolorbox}[modernbox, title=\texttt{if-then-else}]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Knotensumme]
 \begin{lstlisting}
-signum If x =
-  if x < 0
-    then "neg"
-    else "pos"
+sumTree :: Num a => BinTree a -> a
+sumTree Nil = 0
+sumTree (Node v l r) = 
+    v + sumTree l + sumTree r
 \end{lstlisting}
             \end{tcolorbox}
         \end{column}
-        
-        \begin{column}{0.33\textwidth}
-            \begin{tcolorbox}[modernbox, title=Guards (\texttt{|})]
+        \begin{column}{0.48\textwidth}
+            \begin{tcolorbox}[modernbox, title=Knoten zählen]
 \begin{lstlisting}
-signum G x
-  | x < 0     = "neg"
-  | otherwise = "pos"
-\end{lstlisting}
-            \end{tcolorbox}
-        \end{column}
-
-        \begin{column}{0.33\textwidth}
-            \begin{tcolorbox}[modernbox, title=\texttt{case-of}]
-\begin{lstlisting}
-signum C x = 
-  case compare x 0 of
-    LT -> "neg"
-    _  -> "pos"
+countNodes :: BinTree a -> Int
+countNodes Nil = 0
+countNodes (Node _ l r) = 
+    1 + countNodes l + countNodes r
 \end{lstlisting}
             \end{tcolorbox}
         \end{column}
     \end{columns}
 \end{frame}
 
-\section{Lokale Definitionen}
-
-\begin{frame}[fragile]{Scope begrenzen: \texttt{let} \& \texttt{where}}
-    Globale Hilfsmethoden ``verschmutzen'' oft den Namensraum. Um Helper-Methoden privat zu halten, nutzen wir lokale Definitionen.
+\begin{frame}[fragile]{Tree Fold (Fold für Bäume)}
+    Da die rekursiven Traversierungen immer ähnlich aussehen, können wir eine höhere Funktion \texttt{foldTree} definieren:
     
-    \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{tcolorbox}[modernbox, title=Mit \texttt{let ... in}]
+    \begin{tcolorbox}[modernbox, title=\texttt{foldTree}]
 \begin{lstlisting}
-foo x = 
-  let helper y = y + 1 
-  in helper x
+foldTree :: (a -> b -> b -> b) -> b -> BinTree a -> b
+foldTree _ z Nil = z
+foldTree f z (Node v left right) = 
+    f v (foldTree f z left) (foldTree f z right)
 \end{lstlisting}
-            \end{tcolorbox}
-            \small Die Definition steht \textbf{vor} der Nutzung.
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \begin{tcolorbox}[modernbox, title=Mit \texttt{where}]
+    \end{tcolorbox}
+    
+    Damit lassen sich \texttt{sumTree} und \texttt{countNodes} extrem kurz schreiben:
 \begin{lstlisting}
-foo x = helper x
-  where helper y = y + 1
+sumTree' = foldTree (\v l r -> v + l + r) 0
+countNodes' = foldTree (\_ l r -> 1 + l + r) 0
 \end{lstlisting}
-            \end{tcolorbox}
-            \small Die Definition steht \textbf{nach} der Nutzung. (Oft in Haskell bevorzugt).
-        \end{column}
-    \end{columns}
 \end{frame}
 
-\section{Type Synonyms \& Tupel}
+% ============================================
+% ALTKLAUSUR
+% ============================================
+\section{Altklausur \& Blatt 4}
 
-\begin{frame}[fragile]{Tupel und Vektoren}
-    Mit \texttt{type} kann man Datentypen (z.\,B. Tupel) benennen (Typ-Synonyme). Wir können direkt auf den Tupel-Inhalten Pattern Matching anwenden.
+\begin{frame}[fragile]{Aufgabe: Elemente Zählen (mit Filter vs. Fold)}
+    \textbf{Klausuraufgabe:} Implementieren Sie \texttt{count}, die die Anzahl der Elemente zurückgibt, die ein Prädikat erfüllen.
     
-    \begin{tcolorbox}[modernbox, title=Beispiel: Kreuzprodukt]
+    \pause
+    \begin{tcolorbox}[modernbox, title=Lösungswege]
 \begin{lstlisting}
-type Vector3D = (Double, Double, Double)
+-- Mit Filter (einfach!)
+count' :: (a -> Bool) -> [a] -> Int
+count' p xs = length (filter p xs)
 
-crossProduct :: Vector3D -> Vector3D -> Vector3D
-crossProduct (x1, y1, z1) (x2, y2, z2) = 
-    let cx = y1 * z2 - z1 * y2
-        cy = z1 * x2 - x1 * z2
-        cz = x1 * y2 - y1 * x2
-    in (cx, cy, cz)
+-- Mit Fold
+count'' :: (a -> Bool) -> [a] -> Int
+count'' p xs = foldr (\x acc -> if p x then acc + 1 else acc) 0 xs
 \end{lstlisting}
     \end{tcolorbox}
 \end{frame}
@@ -217,9 +236,9 @@ crossProduct (x1, y1, z1) (x2, y2, z2) =
     \begin{center}
         \Huge \textbf{Live Demo} \\
         \vspace{0.5cm}
-        \large \faLaptopCode~ \texttt{verzweigungen.hs}, \texttt{lokaleDefinitionen.hs}, \texttt{vector.hs} \\
+        \large \faLaptopCode~ \texttt{01\_altklausuraufgaben.hs}, \texttt{02\_baeume.hs}, \texttt{sheet04.hs} \\
         \vspace{0.3cm}
-        \normalsize Wir programmieren Guards, \texttt{where}-Blöcke und Vektor-Operationen zusammen im Code!
+        \normalsize Wir programmieren Bäume und besprechen Blatt 4 sowie weitere Klausuraufgaben!
     \end{center}
 \end{frame}
 
